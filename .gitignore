@@ -1,1 +1,18 @@
 node_modules/
+# Ignorar entorno virtual de Python
+venv/
+
+# Ignorar caché de Next.js
+frontend/.next/
+
+# Ignorar archivos de compilación de Next.js
+frontend/.next/cache/
+frontend/.next/server/
+frontend/.next/static/
+frontend/.next/server/_error.js
+frontend/.next/static/chunks/_error.js
+frontend/.next/static/webpack/
+
+# Ignorar bases de datos SQLite (si estás usando SQLite en desarrollo)
+*.sqlite3
+
