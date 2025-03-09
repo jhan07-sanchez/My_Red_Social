@@ -1,30 +1,30 @@
 import { useState } from "react";
 import { useRouter } from "next/router";
 
-export default function Login() {
+export default function Registro() {
+  const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const router = useRouter();
 
-  const handleLogin = async (e) => {
+  const handleRegistro = async (e) => {
     e.preventDefault();
-    setError(""); // Limpiar errores previos
+    setError("");
 
     try {
-      const res = await fetch("http://192.168.101.7:8000/api/usuario/login/", {
+      const res = await fetch("http://192.168.101.7:8000/api/usuario/registro/", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
+        body: JSON.stringify({ nombre, email, password }),
       });
 
       const data = await res.json();
       if (res.ok) {
-        localStorage.setItem("token", data.token); // Guardar token
-        localStorage.setItem("usuario", JSON.stringify(data.user));
-        router.push("/perfil"); // Redirigir al perfil
+        alert("Registro exitoso. Ahora inicia sesión.");
+        router.push("/login");
       } else {
-        setError(data.detail || "Error al iniciar sesión");
+        setError(data.detail || "Error al registrarse");
       }
     } catch (error) {
       setError("No se pudo conectar con el servidor");
@@ -35,10 +35,18 @@ export default function Login() {
     <div className="flex h-screen bg-blue-100 justify-center items-center">
       <div className="bg-white p-6 rounded-lg shadow-lg w-96">
         <h2 className="text-2xl font-bold text-center text-blue-600 mb-4">
-          Iniciar sesión
+          Crear Cuenta
         </h2>
         {error && <p className="text-red-500 text-sm">{error}</p>}
-        <form onSubmit={handleLogin}>
+        <form onSubmit={handleRegistro}>
+          <input
+            type="text"
+            placeholder="Nombre"
+            className="w-full p-2 mb-2 border rounded"
+            value={nombre}
+            onChange={(e) => setNombre(e.target.value)}
+            required
+          />
           <input
             type="email"
             placeholder="Correo electrónico"
@@ -59,16 +67,14 @@ export default function Login() {
             type="submit"
             className="w-full bg-blue-600 text-white p-2 rounded font-bold"
           >
-            Entrar
+            Registrarse
           </button>
         </form>
         <div className="text-center mt-4">
-          <a href="#" className="text-blue-600 text-sm">
-            ¿Olvidaste tu contraseña?
-          </a>
-          <p className="mt-2">
-            <a href="/registro" className="text-blue-600 text-sm font-bold">
-              Crear nueva cuenta
+          <p className="text-sm">
+            ¿Ya tienes una cuenta?{" "}
+            <a href="/login" className="text-blue-600 font-bold">
+              Inicia sesión
             </a>
           </p>
         </div>
