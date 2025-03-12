@@ -1,40 +1,32 @@
-from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin, Group, Permission
+from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.db import models
 
 class UsuarioManager(BaseUserManager):
-    def create_user(self, email, nombre, password=None):
+    def create_user(self, email, password=None, **extra_fields):
+        """Crea y devuelve un usuario con email y contraseña."""
         if not email:
-            raise ValueError('El usuario debe tener un email')
+            raise ValueError('El email es obligatorio')
         email = self.normalize_email(email)
-        usuario = self.model(email=email, nombre=nombre)
-        usuario.set_password(password)
-        usuario.save(using=self._db)
-        return usuario
+        user = self.model(email=email, **extra_fields)
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
 
-    def create_superuser(self, email, nombre, password):
-        usuario = self.create_user(email, nombre, password)
-        usuario.is_admin = True
-        usuario.is_staff = True
-        usuario.is_superuser = True
-        usuario.save(using=self._db)
-        return usuario
+    def create_superuser(self, email, password=None, **extra_fields):
+        """Crea y devuelve un superusuario."""
+        extra_fields.setdefault('is_staff', True)
+        extra_fields.setdefault('is_superuser', True)
+
+        return self.create_user(email, password, **extra_fields)
 
 class Usuario(AbstractBaseUser, PermissionsMixin):
+    """Modelo de usuario personalizado."""
     email = models.EmailField(unique=True)
     nombre = models.CharField(max_length=255)
-    is_active = models.BooleanField(default=False)  # Verificación por email
+    foto_perfil = models.ImageField(upload_to='perfil/', blank=True, null=True)
+    biografia = models.TextField(blank=True, null=True)
+    is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
-
-    groups = models.ManyToManyField(
-        Group,
-        related_name="usuario_groups",  # Evita conflicto con auth.User.groups
-        blank=True
-    )
-    user_permissions = models.ManyToManyField(
-        Permission,
-        related_name="usuario_permissions",  # Evita conflicto con auth.User.user_permissions
-        blank=True
-    )
 
     objects = UsuarioManager()
 
@@ -43,4 +35,3 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
-

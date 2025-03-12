@@ -1,9 +1,9 @@
-from django.urls import path, include
 from django.contrib import admin
+from django.urls import path, include
 
 urlpatterns = [
-    path('admin/', admin.site.urls),  # Agrega esta línea
-    path('api/usuario/', include('apps.usuarios.urls')),
+    path('admin/', admin.site.urls),
+    path('api/usuarios/', include('apps.usuarios.urls')),  # Agregar la API de usuarios
 ]
 
 

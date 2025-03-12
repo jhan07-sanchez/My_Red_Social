@@ -11,5 +11,7 @@
     "next": "latest",
     "react": "latest",
     "react-dom": "latest"
-  }
+  },
+
+  "proxy": "http://192.168.101.7:8000"
 }

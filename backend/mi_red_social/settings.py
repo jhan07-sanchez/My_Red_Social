@@ -53,8 +53,8 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -88,18 +88,14 @@ WSGI_APPLICATION = 'mi_red_social.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'mi_red_social',
         'USER': 'red_social',
         'PASSWORD': '1007773621',
         'HOST': 'localhost',
-        'PORT': '3306',
-        'OPTIONS': {
-            'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
-        }
+        'PORT': '5432',
     }
 }
-
 
 
 # Password validation
@@ -157,7 +153,7 @@ REST_FRAMEWORK = {
 
 
 
-CORS_ALLOW_ALL_ORIGINS = True  # Para pruebas
+CORS_ALLOW_ALL_ORIGINS = False  # Para pruebas
 
 CORS_ALLOWED_ORIGINS = [
     "http://192.168.101.7:3000",  # Si usas React en local
@@ -176,4 +172,15 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Si usas un modelo personalizado, verifica que esté bien configurado
 ]
+
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'  # Por ejemplo, si usas Gmail
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'jhansancheza@gmail.com'  # Tu dirección de correo
+EMAIL_HOST_PASSWORD = '1004499401Jh'  # Tu contraseña de correo
+
+# Configuración de sesiones en settings.py
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guarda las sesiones
 
