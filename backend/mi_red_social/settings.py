@@ -184,3 +184,16 @@ EMAIL_HOST_PASSWORD = '1004499401Jh'  # Tu contraseña de correo
 # Configuración de sesiones en settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guarda las sesiones
 
+
+# Configuración de Django Channels
+ASGI_APPLICATION = 'mi_red_social.asgi.application'
+
+# Redis para el manejo de WebSockets
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}

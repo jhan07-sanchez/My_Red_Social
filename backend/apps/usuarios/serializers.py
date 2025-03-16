@@ -1,6 +1,11 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from apps.usuarios.models import Usuario
+from apps.usuarios.models import Usuario, Amistad, UserProfile
+from apps.usuarios.models import Message
+from .models import FriendRequest, Friendship
+
+
+
 
 class UsuarioSerializer(serializers.ModelSerializer):
     """Serializador para el modelo de usuario."""
@@ -69,3 +74,55 @@ class RestablecerContraseñaSerializer(serializers.Serializer):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({'password': 'Las contraseñas no coinciden'})
         return data
+
+
+
+
+class EnviarSolicitudAmistadSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Amistad
+        fields = ['usuario_recibe']
+
+class ResponderSolicitudSerializer(serializers.Serializer):
+    respuesta = serializers.ChoiceField(choices=['aceptar', 'rechazar'])
+
+class ListaAmigosSerializer(serializers.ModelSerializer):
+    usuario_envia = UsuarioSerializer(read_only=True)
+    usuario_recibe = UsuarioSerializer(read_only=True)
+
+    class Meta:
+        model = Amistad
+        fields = ['usuario_envia', 'usuario_recibe', 'estado']
+
+
+
+class FollowSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['followers']
+        
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserProfile
+        fields = ['friends']
+        
+
+
+class MessageSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Message
+        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']
+        
+
+
+
+class FriendRequestSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FriendRequest
+        fields = '__all__'
+
+class FriendshipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Friendship
+        fields = '__all__'        
