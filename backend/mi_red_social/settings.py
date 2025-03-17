@@ -156,9 +156,9 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = False  # Para pruebas
 
 CORS_ALLOWED_ORIGINS = [
-    "http://192.168.101.7:3000",  # Si usas React en local
+    "http://localhost:3000",  # Si usas React en local
     "http://192.168.101.7",   # IP de tu servidor
-    "http://192.168.101.7:8000",
+    "http://localhost:8000",
 ]    
 
 CORS_ALLOW_CREDENTIALS = True

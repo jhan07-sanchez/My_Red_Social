@@ -33,7 +33,10 @@ class RegistroSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Crea un nuevo usuario."""
+        print("Datos validados:", validated_data)
+        password = validated_data.pop('password')
         validated_data.pop('password2')
+        usuario = Usuario.objects.create_user(password=password, **validated_data)
         return Usuario.objects.create_user(**validated_data)
 
 class LoginSerializer(serializers.Serializer):
