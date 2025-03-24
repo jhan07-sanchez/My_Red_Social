@@ -1,11 +1,6 @@
 from rest_framework import serializers
 from django.contrib.auth import authenticate
-from apps.usuarios.models import Usuario, Amistad, UserProfile
-from apps.usuarios.models import Message
-from .models import FriendRequest, Friendship
-
-
-
+from apps.usuarios.models import Usuario
 
 class UsuarioSerializer(serializers.ModelSerializer):
     """Serializador para el modelo de usuario."""
@@ -33,11 +28,10 @@ class RegistroSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         """Crea un nuevo usuario."""
-        print("Datos validados:", validated_data)
         password = validated_data.pop('password')
         validated_data.pop('password2')
         usuario = Usuario.objects.create_user(password=password, **validated_data)
-        return Usuario.objects.create_user(**validated_data)
+        return usuario
 
 class LoginSerializer(serializers.Serializer):
     """Serializador para autenticación de usuarios."""
@@ -54,8 +48,6 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError('Cuenta desactivada')
         return user
 
-
-
 class SolicitarRecuperacionSerializer(serializers.Serializer):
     """Serializador para solicitar recuperación de contraseña."""
     email = serializers.EmailField()
@@ -65,7 +57,6 @@ class SolicitarRecuperacionSerializer(serializers.Serializer):
         if not Usuario.objects.filter(email=email, is_active=True).exists():
             raise serializers.ValidationError("No existe un usuario con este email.")
         return email
-
 
 class RestablecerContraseñaSerializer(serializers.Serializer):
     """Serializador para restablecer la contraseña."""
@@ -77,55 +68,3 @@ class RestablecerContraseñaSerializer(serializers.Serializer):
         if data['password'] != data['password2']:
             raise serializers.ValidationError({'password': 'Las contraseñas no coinciden'})
         return data
-
-
-
-
-class EnviarSolicitudAmistadSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Amistad
-        fields = ['usuario_recibe']
-
-class ResponderSolicitudSerializer(serializers.Serializer):
-    respuesta = serializers.ChoiceField(choices=['aceptar', 'rechazar'])
-
-class ListaAmigosSerializer(serializers.ModelSerializer):
-    usuario_envia = UsuarioSerializer(read_only=True)
-    usuario_recibe = UsuarioSerializer(read_only=True)
-
-    class Meta:
-        model = Amistad
-        fields = ['usuario_envia', 'usuario_recibe', 'estado']
-
-
-
-class FollowSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['followers']
-        
-
-class FriendRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = UserProfile
-        fields = ['friends']
-        
-
-
-class MessageSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Message
-        fields = ['id', 'sender', 'receiver', 'content', 'timestamp']
-        
-
-
-
-class FriendRequestSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = FriendRequest
-        fields = '__all__'
-
-class FriendshipSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Friendship
-        fields = '__all__'        

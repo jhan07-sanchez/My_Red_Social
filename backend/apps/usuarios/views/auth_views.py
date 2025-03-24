@@ -1,13 +1,17 @@
 from rest_framework import generics, status
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from django.contrib.auth import login, logout
 from apps.usuarios.serializers import RegistroSerializer, LoginSerializer, UsuarioSerializer
 from apps.usuarios.models import Usuario
 from django.contrib.auth.tokens import default_token_generator
 from django.utils.http import urlsafe_base64_decode
 from django.utils.encoding import force_str
+from ..serializers import UsuarioSerializer
+from rest_framework_simplejwt.tokens import RefreshToken
+
+
 
 
 
@@ -17,7 +21,7 @@ class RegistroView(generics.CreateAPIView):
     permission_classes = [AllowAny]
 
 class LoginView(APIView):
-    """Vista para autenticar usuarios."""
+    """Vista para autenticar usuarios y devolver un JWT."""
     permission_classes = [AllowAny]
 
     def post(self, request):
@@ -25,8 +29,19 @@ class LoginView(APIView):
         if serializer.is_valid():
             user = serializer.validated_data
             login(request, user)
-            return Response(UsuarioSerializer(user).data)
+            
+            # Generar el token JWT
+            refresh = RefreshToken.for_user(user)
+            access_token = str(refresh.access_token)
+            
+            return Response({
+                "user": UsuarioSerializer(user).data,
+                "access_token": access_token,
+                "refresh_token": str(refresh)
+            })
+        
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 class LogoutView(APIView):
     """Vista para cerrar sesión."""
@@ -53,3 +68,14 @@ class ActivarCuentaView(APIView):
             return Response({'mensaje': 'Cuenta activada correctamente'}, status=status.HTTP_200_OK)
 
         return Response({'error': 'Token inválido o expirado'}, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+
+
+class UsuarioMeView(APIView):
+    """Vista para obtener los datos del usuario autenticado"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        serializer = UsuarioSerializer(request.user)
+        return Response(serializer.data)    

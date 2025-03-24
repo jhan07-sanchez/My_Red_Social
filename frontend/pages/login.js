@@ -6,6 +6,7 @@ const LoginPage = () => {
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [user, setUser] = useState(null);
 
   const handleRegister = () => {
     router.push("/registro");
@@ -24,17 +25,27 @@ const LoginPage = () => {
       body: JSON.stringify({ email, password })
     });
 
+
+    console.log("Estado de la respuesta:", response.status); // Muestra el código de estado HTTP
+
+
     if (response.ok) {
       const data = await response.json();
-      alert("Inicio de sesión exitoso");
-      // Almacena el token en localStorage (puedes usar sessionStorage si prefieres)
-      localStorage.setItem("token", data.token);
       
-      const token = data.token;  // Asegúrate de que la respuesta tenga el token correcto
 
-      // Guardar el token en el localStorage
-      localStorage.setItem("token", token);
+    console.log("Respuesta completa del backend:", data); // Muestra toda la respuesta JSON
 
+      console.log("Respuesta de la API:", data);
+
+      alert("Inicio de sesión exitoso");
+      // Corregido: Extraer correctamente el token del backend
+    console.log("Token recibido del backend:", data.access_token);
+    localStorage.setItem("token", data.access_token);
+    localStorage.setItem("refreshToken", data.refresh_token);
+    
+    setUser(data.user); // Guardar solo los datos del usuario en el estado
+
+      
 
       router.push("/");
     } else {

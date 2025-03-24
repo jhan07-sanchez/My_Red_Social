@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import LogoutButton from "../components/LogoutButton";  // Si tienes el componente de logout
+import LogoutButton from "../components/LogoutButton"; // Si tienes el componente de logout
 
 const IndexPage = () => {
   const [user, setUser] = useState(null); // Estado para manejar la información del usuario
@@ -9,28 +9,42 @@ const IndexPage = () => {
 
   useEffect(() => {
     const token = localStorage.getItem("token");
+    console.log("Token almacenado:", token); // Verifica si el token está almacenado
+
     if (!token) {
-      router.push("/login");  // Redirigir al login si no hay token
-    } else {
-      // Aquí puedes hacer una solicitud a la API para obtener los detalles del usuario
-      const fetchUserData = async () => {
+      console.log("No hay token, redirigiendo a login...");
+      router.push("/login"); // Redirigir al login si no hay token
+      return;
+    }
+
+    // Función para obtener los datos del usuario
+    const fetchUserData = async () => {
+      try {
         const response = await fetch("http://localhost:8000/api/usuarios/me/", {
           method: "GET",
           headers: {
-            "Authorization": `Bearer ${token}`,  // Enviar el token en los headers
+            Authorization: `Bearer ${token}`, // Enviar el token en los headers
+            "Content-Type": "application/json",
           },
         });
 
         if (response.ok) {
           const data = await response.json();
-          setUser(data);  // Guardar los datos del usuario
+          console.log("Datos del usuario:", data);
+          setUser(data); // Guardar los datos del usuario en el estado
         } else {
-          localStorage.removeItem("token");  // Si la sesión expiró, eliminar token
+          console.error("Error al obtener usuario, sesión expirada");
+          localStorage.removeItem("token"); // Si la sesión expiró, eliminar token
           router.push("/login");
         }
-      };
-      fetchUserData();
-    }
+      } catch (error) {
+        console.error("Error en la solicitud de usuario:", error);
+        localStorage.removeItem("token");
+        router.push("/login");
+      }
+    };
+
+    fetchUserData();
   }, [router]);
 
   return (
@@ -42,9 +56,11 @@ const IndexPage = () => {
             <span className="text-white text-2xl font-semibold">Mi Red Social</span>
           </Link>
           <div className="flex items-center">
-            {user && (
-              <span className="text-white mr-4">{`Hola, ${user.username}`}</span>
-            )}
+          {user && user.nombre ? (
+  <span className="text-white mr-4">{`Hola, ${user.nombre}`}</span>
+) : (
+  <span className="text-white mr-4">Cargando...</span>
+)}
             <LogoutButton /> {/* Botón de logout */}
           </div>
         </div>

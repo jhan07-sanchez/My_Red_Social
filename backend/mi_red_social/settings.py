@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+from datetime import timedelta
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -48,6 +49,16 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'apps.publicaciones',
     'apps.usuarios',
+    'apps.amistades',
+    'apps.interacciones',
+    'apps.chat',
+    'apps.notificaciones',
+    'apps.configuracion',
+    'apps.grupos',
+    'apps.historias',
+    'apps.marketplace',
+    'apps.seguidores',
+    
     
 ]
 
@@ -145,13 +156,17 @@ REST_FRAMEWORK = {
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ),
     'DEFAULT_PERMISSION_CLASSES': (
         'rest_framework.permissions.AllowAny',  # Solo usuarios autenticados
     ),
 }
 
-
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(days=1),  # Token válido por 1 día
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7), # Token de refresco válido por 7 días
+}
 
 CORS_ALLOW_ALL_ORIGINS = False  # Para pruebas
 
@@ -171,6 +186,7 @@ AUTH_USER_MODEL = 'usuarios.Usuario'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Si usas un modelo personalizado, verifica que esté bien configurado
+    'apps.usuarios.backends.EmailAuthBackend',
 ]
 
 
