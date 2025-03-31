@@ -7,6 +7,8 @@ from django.contrib.auth.models import User
 from rest_framework.permissions import IsAuthenticated
 from rest_framework import status, generics
 from apps.amistades.serializers import EnviarSolicitudAmistadSerializer, ResponderSolicitudSerializer, ListaAmigosSerializer,  FriendRequestSerializer, FriendshipSerializer
+from .models import Amistad
+from django.db.models import Q
 
 
 
@@ -134,4 +136,7 @@ class FriendListView(generics.ListAPIView):
     permission_classes = [IsAuthenticated]
 
     def get_queryset(self):
-        return Friendship.objects.filter(user=self.request.user)
+        return Amistad.objects.filter(
+            Q(usuario_envia=self.request.user, estado=Amistad.ACEPTADA) |
+            Q(usuario_recibe=self.request.user, estado=Amistad.ACEPTADA)
+        )

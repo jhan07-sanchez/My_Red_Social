@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import Link from "next/link";
-import LogoutButton from "../components/LogoutButton"; // Si tienes el componente de logout
+ // Componentes
+import Navbar from "../components/Navbar";
+import Sidebar from "../components/Sidebar";
+import Feed from "../components/Feed";
+import FriendsList from "../components/FriendsList";
 
 const IndexPage = () => {
   const [user, setUser] = useState(null); // Estado para manejar la información del usuario
@@ -49,32 +53,33 @@ const IndexPage = () => {
 
   return (
     <div className="min-h-screen bg-gray-100">
-      {/* Barra de navegación */}
-      <nav className="bg-blue-600 p-4">
-        <div className="flex justify-between items-center">
-          <Link href="/">
-            <span className="text-white text-2xl font-semibold">Mi Red Social</span>
-          </Link>
-          <div className="flex items-center">
-          {user && user.nombre ? (
-  <span className="text-white mr-4">{`Hola, ${user.nombre}`}</span>
-) : (
-  <span className="text-white mr-4">Cargando...</span>
-)}
-            <LogoutButton /> {/* Botón de logout */}
-          </div>
-        </div>
-      </nav>
+      {/* Navbar fijo arriba */}
+      <Navbar />
 
-      {/* Contenido principal */}
-      <div className="p-8">
-        <h1 className="text-3xl font-bold mb-4">Bienvenido a tu página de inicio</h1>
-        <p className="text-lg mb-4">Aquí puedes ver las publicaciones, interactuar con tus amigos y más.</p>
-        
-        {/* Aquí podrías incluir un feed de publicaciones, tus amigos, etc. */}
-        <div className="mt-8">
-          <h2 className="text-2xl font-semibold mb-4">Últimas publicaciones</h2>
-          {/* Aquí puedes mapear las publicaciones si tienes un feed implementado */}
+      {/* Contenedor principal con Sidebar y Contenido */}
+      <div className="flex">
+        {/* Barra lateral */}
+        <Sidebar />
+
+        {/* Contenido + Feed en un layout flexible */}
+        <div className="flex-1 flex p-8">
+          {/* Contenido principal */}
+          <div className="w-3/4 pr-4">
+            <h1 className="text-3xl font-bold mb-4">Bienvenido a tu página de inicio</h1>
+            <p className="text-lg mb-4">
+              Aquí puedes ver las publicaciones, interactuar con tus amigos y más.
+            </p>
+          </div>
+
+          {/* Feed (ocupa más espacio) */}
+          <div className="w-1/4">
+            <Feed />
+          </div>
+          {/* Lista de Amigos */}
+        <div className="w-1/5">
+          <FriendsList />
+        </div>
+           
         </div>
       </div>
     </div>
