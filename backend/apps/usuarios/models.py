@@ -35,3 +35,10 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+    
+    
+    
+    def get_foto_perfil_url(self):
+        if self.foto_perfil and hasattr(self.foto_perfil, 'url'):
+            return self.foto_perfil.url
+        return f'{settings.MEDIA_URL}imagenes/default-avatar.png'

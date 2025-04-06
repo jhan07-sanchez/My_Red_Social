@@ -5,11 +5,28 @@ from apps.usuarios.models import Usuario
 class UsuarioSerializer(serializers.ModelSerializer):
     """Serializador para el modelo de usuario."""
 
+    foto_perfil_url = serializers.SerializerMethodField()
+
     class Meta:
         model = Usuario
-        fields = ['id', 'email', 'nombre', 'foto_perfil', 'biografia']
+        fields = ['id', 'email', 'nombre', 'foto_perfil_url', 'biografia']
         read_only_fields = ['id']
 
+    def get_foto_perfil_url(self, obj):
+        print(self.context)
+        request = self.context.get('request')
+        base_url = "http://192.168.101.7:8000"
+        if request:
+            if obj.foto_perfil:
+                return request.build_absolute_uri(obj.foto_perfil.url)
+            return request.build_absolute_uri('/media/imagenes/default-avatar.png')
+        else:
+            # En caso de que no haya request, devuelve la ruta relativa (opcional)
+            if obj.foto_perfil:
+                 return f"{base_url}{obj.foto_perfil.url}"
+        return f"{base_url}/media/imagenes/default-avatar.png"
+    
+    
 class RegistroSerializer(serializers.ModelSerializer):
     """Serializador para registrar nuevos usuarios."""
 

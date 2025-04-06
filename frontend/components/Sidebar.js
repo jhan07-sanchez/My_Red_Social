@@ -2,14 +2,23 @@ import Link from "next/link";
 
 const Sidebar = () => {
   return (
-    <aside className="w-1/5 p-4 bg-gray-200 min-h-screen fixed left-0 top-16">
-      <ul>
-        <li className="mb-4"><Link href="/">Inicio</Link></li>
-        <li className="mb-4"><Link href="/perfil">Perfil</Link></li>
-        <li className="mb-4"><Link href="/amigos">Amigos</Link></li>
-        <li className="mb-4"><Link href="/mensajes">Mensajes</Link></li>
+    <div className="w-64 bg-white rounded-2xl shadow p-4 h-full">
+      <h2 className="text-xl font-semibold mb-4">Menú</h2>
+      <ul className="space-y-3">
+        <li>
+          <Link href="/" className="text-blue-600 hover:underline">Inicio</Link>
+        </li>
+        <li>
+          <Link href="/perfil" className="text-blue-600 hover:underline">Perfil</Link>
+        </li>
+        <li>
+          <Link href="/amigos" className="text-blue-600 hover:underline">Amigos</Link>
+        </li>
+        <li>
+          <Link href="/mensajes" className="text-blue-600 hover:underline">Mensajes</Link>
+        </li>
       </ul>
-    </aside>
+    </div>
   );
 };
 

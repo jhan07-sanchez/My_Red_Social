@@ -213,3 +213,14 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+
+import os
+from django.urls import reverse_lazy
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Fuerza el dominio del backend al construir URLs absolutas
+USE_X_FORWARDED_HOST = True
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'http')

@@ -12,12 +12,9 @@ const Feed = () => {
   }, []);
 
   return (
-    <div className="w-3/5 mx-auto mt-16">
-      {posts.length > 0 ? (
-        posts.map((post) => <Post key={post.id} post={post} />)
-      ) : (
-        <p>No hay publicaciones aún.</p>
-      )}
+    <div className="bg-white rounded-2xl shadow p-4 h-full">
+      <h2 className="text-xl font-semibold mb-4">Publicaciones</h2>
+      <p className="text-gray-500">No hay publicaciones aún.</p>
     </div>
   );
 };
