@@ -10,7 +10,7 @@ export default function LoginForm() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    const response = await fetch("http://localhost:8000/api/usuarios/login/", {
+    const response = await fetch("http://192.168.101.7:8000/api/usuarios/login/", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ email, password })

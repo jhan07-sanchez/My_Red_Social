@@ -2,9 +2,9 @@ import Link from "next/link";
 
 const Sidebar = () => {
   return (
-    <div className="w-64 bg-white rounded-2xl shadow p-4 h-full">
+    <div className="bg-white p-4 mt-4 rounded-lg shadow-md h-full">
       <h2 className="text-xl font-semibold mb-4">Menú</h2>
-      <ul className="space-y-3">
+      <ul className="space-y-2">
         <li>
           <Link href="/" className="text-blue-600 hover:underline">Inicio</Link>
         </li>
