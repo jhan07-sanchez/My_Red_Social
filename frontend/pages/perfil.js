@@ -1,33 +1,42 @@
+// pages/perfil.js
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
+import axios from "axios";
+import UsuarioPerfilCard from "../components/UsuarioPerfilCard";
 
 export default function Perfil() {
   const [user, setUser] = useState(null);
   const router = useRouter();
 
   useEffect(() => {
-    const usuarioGuardado = localStorage.getItem("usuario");
-    if (!usuarioGuardado) {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
       router.push("/login");
-    } else {
-      setUser(JSON.parse(usuarioGuardado));
+      return;
     }
+
+    axios.get("http://192.168.101.7:8000/api/usuarios/me/", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+    .then((res) => setUser(res.data))
+    .catch(() => router.push("/login"));
   }, []);
 
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("refreshToken");
+    router.push("/login");
+  };
+
   return (
-    <div>
-      <h1>Perfil de Usuario</h1>
+    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
       {user ? (
-        <div>
-          <p><strong>Nombre:</strong> {user.nombre}</p>
-          <p><strong>Email:</strong> {user.email}</p>
-          <button onClick={() => {
-            localStorage.removeItem("usuario");
-            router.push("/login");
-          }}>Cerrar Sesión</button>
-        </div>
+        <UsuarioPerfilCard user={user} onLogout={cerrarSesion} />
       ) : (
-        <p>Cargando...</p>
+        <p className="text-gray-500">Cargando...</p>
       )}
     </div>
   );

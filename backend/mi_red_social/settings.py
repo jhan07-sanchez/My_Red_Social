@@ -195,7 +195,7 @@ EMAIL_HOST = 'smtp.gmail.com'  # Por ejemplo, si usas Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = 'jhansancheza@gmail.com'  # Tu dirección de correo
-EMAIL_HOST_PASSWORD = '1004499401Jh'  # Tu contraseña de correo
+EMAIL_HOST_PASSWORD = 'vebs vnnu pmdz phbw'  # Tu contraseña de correo
 
 # Configuración de sesiones en settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guarda las sesiones

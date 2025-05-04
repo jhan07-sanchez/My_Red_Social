@@ -27,6 +27,9 @@ class Usuario(AbstractBaseUser, PermissionsMixin):
     biografia = models.TextField(blank=True, null=True)
     is_active = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
+    otp = models.CharField(max_length=6, blank=True, null=True)
+    otp_created_at = models.DateTimeField(blank=True, null=True)
+
 
     objects = UsuarioManager()
 

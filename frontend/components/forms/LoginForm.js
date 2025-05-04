@@ -26,6 +26,7 @@ export default function LoginForm() {
       console.log("Token recibido del backend:", data.access_token);
       localStorage.setItem("token", data.access_token);
       localStorage.setItem("refreshToken", data.refresh_token);
+      
       setUser(data.user);
       router.push("/");
     } else {

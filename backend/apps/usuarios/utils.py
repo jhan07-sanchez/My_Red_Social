@@ -5,6 +5,11 @@ from django.core.mail import send_mail
 from django.urls import reverse
 from django.conf import settings
 from .models import Usuario
+import random
+from django.utils import timezone   
+
+
+
 
 def generar_token_activacion(usuario):
     """Genera un token de activación para el usuario."""
@@ -31,4 +36,30 @@ def enviar_email_recuperacion(usuario, request):
     asunto = 'Recuperación de contraseña'
     mensaje = f'Hola {usuario.nombre}, haz clic en el siguiente enlace para restablecer tu contraseña: {url_recuperacion}'
     
-    send_mail(asunto, mensaje, settings.DEFAULT_FROM_EMAIL, [usuario.email])    
+    send_mail(asunto, mensaje, settings.DEFAULT_FROM_EMAIL, [usuario.email])   
+    
+    
+def generar_otp():
+    """Genera un código OTP de 6 dígitos."""
+    return str(random.randint(100000, 999999))
+
+
+def enviar_codigo_otp(usuario):
+    """Envía un correo con el código OTP al usuario."""
+    mensaje = f"""
+Hola {usuario.nombre},
+
+Tu código de verificación para activar tu cuenta en SocialLink es: {usuario.otp}
+
+Este código vence en 10 minutos. Si no solicitaste este código, puedes ignorar este mensaje.
+
+Gracias por unirte a nuestra comunidad.
+"""
+
+    send_mail(
+        subject="Verificación de cuenta - SocialLink",
+        message=mensaje.strip(),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[usuario.email],
+        fail_silently=False,
+    )
