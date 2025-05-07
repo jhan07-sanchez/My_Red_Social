@@ -13,7 +13,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Usuario
-        fields = ['id', 'email', 'nombre', 'foto_perfil_url', 'biografia']
+        fields = ['id', 'email', 'nombre', 'foto_perfil', 'foto_perfil_url', 'biografia']
         read_only_fields = ['id']
 
     def get_foto_perfil_url(self, obj):

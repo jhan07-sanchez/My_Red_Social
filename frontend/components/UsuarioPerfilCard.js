@@ -1,7 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 
-export default function UsuarioPerfilCard({ user, onLogout }) {
+export default function UsuarioPerfilCard({ user,setUser, onLogout }) {
   const [modoEdicion, setModoEdicion] = useState(false);
   const [nombre, setNombre] = useState(user.nombre);
   const [biografia, setBiografia] = useState(user.biografia || "");
