@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import Link from "next/link";
 
-// Componentes
-import Navbar from "../components/Navbar";
 import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import FriendsList from "../components/FriendsList";
@@ -11,59 +8,50 @@ import FriendsList from "../components/FriendsList";
 const IndexPage = () => {
   const [user, setUser] = useState(null);
   const [mostrarBienvenida, setMostrarBienvenida] = useState(false);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
 
   useEffect(() => {
-    // Control del mensaje de bienvenida
     const yaVisto = localStorage.getItem("visto_bienvenida");
     if (!yaVisto) {
       setMostrarBienvenida(true);
       localStorage.setItem("visto_bienvenida", "true");
     }
 
-    // Control de autenticación
     const token = localStorage.getItem("token");
-    console.log("Token almacenado:", token);
-
     if (!token) {
-      console.log("No hay token, redirigiendo a login...");
       router.push("/login");
       return;
     }
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch("http://localhost:8000/api/usuarios/me/", {
-          method: "GET",
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
-          },
+        const response = await fetch("http://192.168.101.7:8000/api/usuarios/me/", {
+          headers: { Authorization: `Bearer ${token}` },
         });
 
         if (response.ok) {
           const data = await response.json();
-          console.log("Datos del usuario:", data);
           setUser(data);
         } else {
-          console.error("Error al obtener usuario, sesión expirada");
           localStorage.removeItem("token");
           router.push("/login");
         }
-      } catch (error) {
-        console.error("Error en la solicitud de usuario:", error);
+      } catch {
         localStorage.removeItem("token");
         router.push("/login");
+      } finally {
+        setLoading(false);
       }
     };
 
     fetchUserData();
   }, [router]);
 
+  if (loading) return null; // O un spinner simple mientras cargas el usuario
+
   return (
     <div className="min-h-screen bg-gray-100">
-      <Navbar />
-
       <div className="flex mt-20 px-4">
         <div className="w-1/5">
           <Sidebar />
@@ -88,5 +76,6 @@ const IndexPage = () => {
     </div>
   );
 };
+
 
 export default IndexPage;

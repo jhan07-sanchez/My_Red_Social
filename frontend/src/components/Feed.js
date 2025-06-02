@@ -33,9 +33,10 @@ const Feed = () => {
     setPosts([nuevoPost, ...posts]);
   };
 
-  return (
-    <div>
-      <h2 className="text-xl font-bold mb-4">Crear una nueva publicación</h2>
+ return (
+  <div className="bg-gray-100 min-h-screen py-8 px-4">
+    <div className="max-w-2xl mx-auto">
+      <h2 className="text-2xl font-bold mb-6 text-center text-gray-800">Crear una nueva publicación</h2>
 
       {/* Formulario único de publicación */}
       <div className="mb-6">
@@ -49,7 +50,9 @@ const Feed = () => {
         posts.map((post) => <Post key={post.id} post={post} />)
       )}
     </div>
-  );
+  </div>
+);
+
 };
 
 export default Feed;

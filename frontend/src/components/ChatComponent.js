@@ -6,7 +6,7 @@ const ChatComponent = ({ roomName, username }) => {
   let socket = null;
 
   useEffect(() => {
-    const wsUrl = `ws://localhost:8000/ws/chat/${roomName}/`;
+    const wsUrl = `ws://192.168.101.7:8000/ws/chat/${roomName}/`;
     socket = new WebSocket(wsUrl);
 
     socket.onmessage = (event) => {

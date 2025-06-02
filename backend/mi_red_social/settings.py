@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     'apps.historias',
     'apps.marketplace',
     'apps.seguidores',
+    'django_extensions',
     
     
 ]

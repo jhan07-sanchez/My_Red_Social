@@ -6,7 +6,7 @@ const FollowButton = ({ username }) => {
 
   const handleFollow = async () => {
     try {
-      const response = await axios.post(`http://localhost:8000/api/follow/${username}/`, {}, {
+      const response = await axios.post(`http://192.168.101.7:8000/api/follow/${username}/`, {}, {
         withCredentials: true,
       });
 

@@ -100,7 +100,7 @@ class LoginSerializer(serializers.Serializer):
     password = serializers.CharField(write_only=True)
 
     def validate(self, data):
-        print("Datos recibidos para login:", data)  # 👈 imprime datos
+        print("Datos recibidos para login:", data)  #  imprime datos
         user = authenticate(request=self.context.get('request'), email=data['email'], password=data['password'])
         if not user:
             raise serializers.ValidationError('Credenciales inválidas')

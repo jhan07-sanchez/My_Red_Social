@@ -23,7 +23,7 @@ const RegisterForm = () => {
 
     setLoading(true); // Iniciar carga
     try {
-      const response = await axios.post("http://localhost:8000/api/usuarios/registro/", {
+      const response = await axios.post("http://192.168.101.7:8000/api/usuarios/registro/", {
         nombre,
         email,
         password,
@@ -55,7 +55,7 @@ const RegisterForm = () => {
     setOtpLoading(true); // Iniciar carga
 
     try {
-      const response = await axios.post("http://localhost:8000/api/usuarios/verificar-otp/", {
+      const response = await axios.post("http://192.168.101.7:8000/api/usuarios/verificar-otp/", {
         email,
         otp: verificationCode,
       });

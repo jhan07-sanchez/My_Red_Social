@@ -35,7 +35,7 @@ const Navbar = () => {
   return (
     <nav className="bg-blue-600 text-white flex justify-between items-center px-6 py-4 fixed top-0 w-full z-50 shadow-md">
       <Link href="/">
-        <span className="text-white text-2xl font-semibold cursor-pointer">Socialink</span>
+        <span className="text-white text-2xl font-semibold cursor-pointer">SociaLink</span>
       </Link>
       <div className="flex items-center space-x-4">
         <Link href="/perfil" className="text-white">

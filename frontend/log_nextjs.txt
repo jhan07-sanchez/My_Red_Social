@@ -1,0 +1,17 @@
+
+> mi_red_social_frontend@1.0.0 dev
+> next dev
+
+   ▲ Next.js 15.2.4
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.101.7:3000
+   - Environments: .env.local
+
+ ✓ Starting...
+ ✓ Ready in 2.9s
+ ○ Compiling /login ...
+ ✓ Compiled /login in 2.9s (417 modules)
+ ✓ Compiled in 2.3s (417 modules)
+ GET /login 200 in 5736ms
+ ⚠ Cross origin request detected from 192.168.101.7 to /_next/* resource. In a future major version of Next.js, you will need to explicitly configure "allowedDevOrigins" in next.config to allow this.
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
