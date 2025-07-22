@@ -4,6 +4,7 @@ from apps.usuarios.models import Usuario
 from apps.usuarios.utils import generar_otp 
 from django.utils import timezone
 from django.core.mail import send_mail
+from datetime import timedelta
 
 
 class UsuarioSerializer(serializers.ModelSerializer):
@@ -18,7 +19,7 @@ class UsuarioSerializer(serializers.ModelSerializer):
 
     def get_foto_perfil_url(self, obj):
         request = self.context.get('request')
-        base_url = "http://192.168.101.7:8000"
+        base_url = "http://192.168.101.7:8090"
         if request:
             if obj.foto_perfil:
                 return request.build_absolute_uri(obj.foto_perfil.url)

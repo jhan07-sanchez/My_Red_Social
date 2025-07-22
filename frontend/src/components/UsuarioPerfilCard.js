@@ -19,7 +19,7 @@ export default function UsuarioPerfilCard({ user,setUser, onLogout }) {
     }
 
     try {
-      const res = await axios.patch("http://192.168.101.7:8000/api/usuarios/editar/", formData, {
+      const res = await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/editar/`, formData, {
         headers: {
           Authorization: `Bearer ${token}`,
           

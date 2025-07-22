@@ -14,7 +14,7 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
 
     try {
       const response = await fetch(
-        `http://192.168.101.7:8000/api/publicaciones/comentarios/${postId}/comentar/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/comentarios/${postId}/comentar/`,
         {
           method: "POST",
           headers: {

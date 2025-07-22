@@ -4,7 +4,7 @@ const ChatBox = ({ roomName, username }) => {
   const [messages, setMessages] = useState([]);
   const [newMessage, setNewMessage] = useState('');
   
-  const socket = new WebSocket(`ws://192.168.101.7:8000/ws/chat/${roomName}/`);
+  const socket = new WebSocket(`${process.env.NEXT_PUBLIC_BACKEND_URL}/ws/chat/${roomName}/`);
 
   useEffect(() => {
     socket.onmessage = (e) => {

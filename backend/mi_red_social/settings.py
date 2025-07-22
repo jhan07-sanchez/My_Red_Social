@@ -154,13 +154,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
+        
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
         'rest_framework.authentication.SessionAuthentication',
         'rest_framework.authentication.TokenAuthentication',
         'rest_framework.authentication.BasicAuthentication',
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        
     ),
     'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.AllowAny',  # Solo usuarios autenticados
+        'rest_framework.permissions.IsAuthenticated',
     ),
 }
 
@@ -173,14 +175,14 @@ CORS_ALLOW_ALL_ORIGINS = False  # Para pruebas
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",  # Si usas React en local
-    "http://192.168.101.7",   # IP de tu servidor
+    "http://192.168.101.7:8081",   # IP de tu servidor
     "http://localhost:8000",
 ]    
 
 CORS_ALLOW_CREDENTIALS = True
-CORS_ALLOWED_ORIGIN_REGEXES = [
-    r"^http://192\.168\.101\.7:\d+$",
-]
+#CORS_ALLOWED_ORIGIN_REGEXES = [
+    #r"^http://192\.168\.101\.7:\d+$",
+#]
 
 
 AUTH_USER_MODEL = 'usuarios.Usuario'
@@ -221,6 +223,9 @@ from django.urls import reverse_lazy
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
+
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Fuerza el dominio del backend al construir URLs absolutas
 USE_X_FORWARDED_HOST = True

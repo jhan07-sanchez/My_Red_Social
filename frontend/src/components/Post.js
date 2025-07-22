@@ -35,10 +35,20 @@ const Post = ({ post }) => {
       )}
 
       {/* Reacciones */}
-      <Reacciones postId={post.id} reaccionesIniciales={post.reacciones} />
+      <Reacciones postId={post.id} reaccionesIniciales={Array.isArray(post.reacciones) ? post.reacciones : []} />
 
       {/* Comentarios */}
-      <Comentarios postId={post.id} comentariosIniciales={post.comentarios} />
+      <Comentarios postId={post.id} comentariosIniciales={Array.isArray(post.comentarios) ? post.comentarios : []} />
+      
+     
+
+
+      {/* Botón para ver más comentarios */}
+      {post.comentarios && post.comentarios.length > 3 && (
+        <button className="text-blue-500 mt-2">
+          Ver más comentarios ({post.comentarios.length - 3})
+        </button>
+      )}
     </div>
   );
 };

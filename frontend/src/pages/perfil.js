@@ -16,7 +16,7 @@ export default function Perfil() {
       return;
     }
 
-    axios.get("http://192.168.101.7:8000/api/usuarios/me/", {
+    axios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

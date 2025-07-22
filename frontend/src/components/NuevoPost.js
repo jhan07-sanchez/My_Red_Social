@@ -1,6 +1,8 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
+import { AuthContext } from "../../context/AuthContext"; // Asegúrate de que la ruta sea correcta
 
 const NuevoPost = ({ onPostCreado }) => {
+  const { token } = useContext(AuthContext);  // ✅ Token desde contexto
   const [contenido, setContenido] = useState("");
   const [imagen, setImagen] = useState(null);
   const [cargando, setCargando] = useState(false);
@@ -13,6 +15,11 @@ const NuevoPost = ({ onPostCreado }) => {
       return;
     }
 
+    if (!token) {
+      alert("Tu sesión ha expirado. Por favor inicia sesión de nuevo.");
+      return;
+    }
+
     const formData = new FormData();
     formData.append("contenido", contenido);
     if (imagen) {
@@ -21,19 +28,17 @@ const NuevoPost = ({ onPostCreado }) => {
 
     setCargando(true);
     try {
-      const respuesta = await fetch("http://192.168.101.7:8000/api/publicaciones/publicaciones/", {
+      const respuesta = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/publicaciones/`, {
         method: "POST",
         headers: {
-          Authorization: `Bearer ${localStorage.getItem("token")}`,
+          Authorization: `Bearer ${token}`,   // 👈 Token del contexto
         },
         body: formData,
       });
+
       if (!respuesta.ok) {
         const errorText = await respuesta.text();
         console.error("Error al publicar:", errorText);
-        throw new Error("Error al publicar");
-      }
-      if (!respuesta.ok) {
         throw new Error("Error al publicar");
       }
 

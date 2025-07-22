@@ -1,36 +1,47 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useRouter } from "next/router";
 import { FaEnvelope, FaLock } from "react-icons/fa";
+import { AuthContext } from "../../../context/AuthContext";
 
 export default function LoginForm() {
   const router = useRouter();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [user, setUser] = useState(null);
+  const [loading, setLoading] = useState(false);
+  const { login } = useContext(AuthContext);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setLoading(true);
 
-    const response = await fetch("http://192.168.101.7:8000/api/usuarios/login/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ email, password }),
-    });
+    try {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/login/`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
-    console.log("Estado de la respuesta:", response.status);
+      console.log("Estado de la respuesta:", response.status);
 
-    if (response.ok) {
+      if (!response.ok) {
+        alert("Credenciales incorrectas");
+        return;
+      }
+
       const data = await response.json();
       console.log("Respuesta completa del backend:", data);
 
-      alert("Inicio de sesión exitoso");
-      localStorage.setItem("token", data.access_token);
-      localStorage.setItem("refreshToken", data.refresh_token);
+      const { user, access_token, refresh_token } = data;
 
-      setUser(data.user);
+      login(user, access_token, refresh_token); // ✅ Guardamos ambos tokens
+
+      alert("Inicio de sesión exitoso");
       router.push("/");
-    } else {
-      alert("Credenciales incorrectas");
+    } catch (err) {
+      console.error("Error al iniciar sesión:", err);
+      alert("Error al conectar con el servidor");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -38,11 +49,7 @@ export default function LoginForm() {
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 via-white to-blue-100">
       <div className="bg-[#0f172a] p-8 rounded-xl shadow-lg w-full max-w-md text-white">
         <div className="flex flex-col items-center mb-6">
-          <img
-            src="/logo-socialink.png"
-            alt="Logo Socialink"
-            className="w-28 h-28 mb-4"
-          />
+          <img src="/logo-socialink.png" alt="Logo Socialink" className="w-28 h-28 mb-4" />
           <h1 className="text-xl font-bold">Bienvenido a</h1>
           <h2 className="text-2xl font-extrabold">SOCIALINK</h2>
           <p className="text-sm text-gray-400 mt-1">Conecta con tu red social</p>
@@ -50,7 +57,7 @@ export default function LoginForm() {
 
         <form onSubmit={handleLogin}>
           <label className="block text-sm mb-1">Correo electrónico</label>
-          <div className="flex items-center bg-gray-800 px-3 py-2 rounded-md mb-4 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+          <div className="flex items-center bg-gray-800 px-3 py-2 rounded-md mb-4 hover:scale-105 transition-transform">
             <FaEnvelope className="text-cyan-400 mr-2" />
             <input
               type="email"
@@ -63,7 +70,7 @@ export default function LoginForm() {
           </div>
 
           <label className="block text-sm mb-1">Contraseña</label>
-          <div className="flex items-center bg-gray-800 px-3 py-2 rounded-md mb-2 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105">
+          <div className="flex items-center bg-gray-800 px-3 py-2 rounded-md mb-2 hover:scale-105 transition-transform">
             <FaLock className="text-cyan-400 mr-2" />
             <input
               type="password"
@@ -91,9 +98,10 @@ export default function LoginForm() {
 
           <button
             type="submit"
-            className="w-full py-2 rounded-md bg-gradient-to-r from-cyan-500 to-fuchsia-500 transition duration-300 ease-in-out transform hover:-translate-y-1 hover:scale-105"
+            disabled={loading}
+            className="w-full py-2 rounded-md bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:scale-105 transition-transform"
           >
-            Iniciar sesión
+            {loading ? "Iniciando sesión..." : "Iniciar sesión"}
           </button>
         </form>
 

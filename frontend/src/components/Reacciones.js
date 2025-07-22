@@ -4,7 +4,10 @@ import { motion, AnimatePresence } from "framer-motion";
 const tipoAReaccion = {
   like: "👍",
   love: "❤️",
-  laugh: "😂",
+  haha: "😂",
+  wow: "😮",
+  sad: "😢",
+  angry: "😡",
 };
 
 const Reacciones = ({ postId, reaccionesIniciales }) => {
@@ -17,7 +20,7 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
   const handleReaccionar = async (tipo) => {
     try {
       const response = await fetch(
-        `http://192.168.101.7:8000/api/publicaciones/publicaciones/${postId}/reaccionar/`,
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/publicaciones/${postId}/reaccionar/`,
         {
           method: "POST",
           headers: {

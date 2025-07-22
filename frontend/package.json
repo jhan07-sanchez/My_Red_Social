@@ -9,11 +9,14 @@
   },
   "dependencies": {
     "axios": "^1.8.3",
+    "framer-motion": "^12.23.0",
     "next": "^15.2.3",
     "react": "latest",
-    "react-dom": "latest"
+    "react-dom": "latest",
+    "react-icons": "^5.5.0",
+    "react-markdown": "^10.1.0"
   },
-  "proxy": "http://192.168.101.7:8000",
+  "proxy": "http://192.168.101.7:8090",
   "devDependencies": {
     "autoprefixer": "^10.4.21",
     "postcss": "^8.5.3",

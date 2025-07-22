@@ -13,7 +13,7 @@ const FriendsList = () => {
       return;
     }
 
-    fetch("http://192.168.101.7:8000/api/amistades/mis-amigos/", {
+    fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/amistades/mis-amigos/`, {
       headers: {
         "Authorization": `Bearer ${token}`,
         "Content-Type": "application/json",

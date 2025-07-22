@@ -10,7 +10,7 @@ const ForgotPasswordForm = () => {
   const handleRequestReset = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://192.168.101.7:8000/api/usuarios/solicitar-recuperacion/", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/solicitar-recuperacion/`, {
         email,
       });
       alert("Se ha enviado un código a tu correo electrónico");
@@ -24,7 +24,7 @@ const ForgotPasswordForm = () => {
   const handleResetPassword = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://192.168.101.7:8000/api/usuarios/restablecer-contrasena/", {
+      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/restablecer-contrasena/`, {
         email,
         code,
         new_password: newPassword,

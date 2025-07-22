@@ -10,7 +10,7 @@ const Navbar = () => {
 
     const fetchUser = async () => {
       try {
-        const response = await fetch("http://192.168.101.7:8000/api/usuarios/me/", {
+        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`, {
           headers: {
             Authorization: `Bearer ${token}`,
           },

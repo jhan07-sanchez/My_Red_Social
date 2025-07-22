@@ -6,7 +6,7 @@ const AddFriendButton = ({ username }) => {
 
   const handleFriendRequest = async () => {
     try {
-      const response = await axios.post(`http://192.168.101.7:8000/api/add-friend/${username}/`, {}, {
+      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/add-friend/${username}/`, {}, {
         withCredentials: true,
       });
 
