@@ -23,8 +23,11 @@ const NuevoPost = ({ onPostCreado }) => {
     const formData = new FormData();
     formData.append("contenido", contenido);
     if (imagen) {
-      formData.append("imagen", imagen);
-    }
+      const extension = imagen.name.split(".").pop();
+      const nuevoNombre = `${Date.now()}.${extension}`;
+      const archivoRenombrado = new File([imagen], nuevoNombre, { type: imagen.type });
+      formData.append("imagen", archivoRenombrado);
+}
 
     setCargando(true);
     try {
