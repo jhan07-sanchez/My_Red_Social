@@ -1,7 +1,8 @@
 import '../styles/globals.css';
 import { useRouter } from 'next/router';
 import Layout from '../components/Layout';
-import { AuthProvider } from '../../context/AuthContext'; // 👈 Importa el AuthProvider, no el Contexto directo
+import { AuthProvider } from '../../context/AuthContext';
+import { ThemeProvider } from '../../context/ThemeContext'; // ✅ Asegúrate de que la ruta sea correcta
 
 const hiddenNavbarRoutes = ['/login', '/registro', '/forgot-password'];
 
@@ -16,8 +17,10 @@ export default function App({ Component, pageProps }) {
   });
 
   return (
-    <AuthProvider> {/* 👈 Aquí envuelves todo con el AuthProvider completo */}
-      {getLayout(<Component {...pageProps} />)}
+    <AuthProvider>
+      <ThemeProvider> {/* ✅ Envuelve todo con ThemeProvider */}
+        {getLayout(<Component {...pageProps} />)}
+      </ThemeProvider>
     </AuthProvider>
   );
 }
