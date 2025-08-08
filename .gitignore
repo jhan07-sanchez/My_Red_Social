@@ -5,6 +5,9 @@ venv/
 # Ignorar caché de Next.js
 frontend/.next/
 
+# Entornos locales
+.env.local
+
 # Ignorar archivos de compilación de Next.js
 frontend/.next/cache/
 frontend/.next/server/
