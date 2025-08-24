@@ -1,25 +1,94 @@
-import Link from "next/link";
+"use client";
+import { useState } from "react";
+import {
+  Home,
+  User,
+  Users,
+  MessageSquare,
+  Bell,
+  Settings,
+  LogOut,
+  Menu,
+  X,
+} from "lucide-react";
 
 const Sidebar = () => {
+  const [open, setOpen] = useState(false);
+
+  const menuItems = [
+    { name: "Inicio", icon: <Home className="w-5 h-5" /> },
+    { name: "Perfil", icon: <User className="w-5 h-5" /> },
+    { name: "Amigos", icon: <Users className="w-5 h-5" /> },
+    { name: "Mensajes", icon: <MessageSquare className="w-5 h-5" /> },
+    { name: "Notificaciones", icon: <Bell className="w-5 h-5" /> },
+    { name: "Configuración", icon: <Settings className="w-5 h-5" /> },
+  ];
+
   return (
-    <div className="bg-white p-4 mt-4 rounded-lg shadow-md h-full">
-      <h2 className="text-xl font-semibold mb-4">Menú</h2>
-      <ul className="space-y-2">
-        <li>
-          <Link href="/" className="text-blue-600 hover:underline">Inicio</Link>
-        </li>
-        <li>
-          <Link href="/perfil" className="text-blue-600 hover:underline">Perfil</Link>
-        </li>
-        <li>
-          <Link href="/amigos" className="text-blue-600 hover:underline">Amigos</Link>
-        </li>
-        <li>
-          <Link href="/mensajes" className="text-blue-600 hover:underline">Mensajes</Link>
-        </li>
-      </ul>
-    </div>
+    <>
+      {/* Botón hamburguesa móvil */}
+      <button
+        onClick={() => setOpen(true)}
+        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow-lg border hover:bg-gray-100 transition"
+      >
+        <Menu className="w-6 h-6 text-gray-700" />
+      </button>
+
+      {/* Overlay */}
+      {open && (
+        <div
+          onClick={() => setOpen(false)}
+          className="fixed inset-0 bg-black/40 z-40 md:hidden"
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed top-16 left-0 h-[calc(100%-4rem)] w-72 bg-white dark:bg-gray-900
+          border-r border-gray-200 dark:border-gray-700 shadow-lg z-50
+          transform transition-transform duration-300 ease-in-out
+          ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+        `}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">
+          <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            Mi Red
+          </h2>
+          <button
+            onClick={() => setOpen(false)}
+            className="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+          >
+            <X className="w-6 h-6 text-gray-700 dark:text-gray-200" />
+          </button>
+        </div>
+
+        {/* Menú */}
+        <nav className="flex flex-col p-4 space-y-2">
+          {menuItems.map((item, i) => (
+            <button
+              key={i}
+              className="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+            >
+              {item.icon}
+              <span className="text-base font-medium">{item.name}</span>
+            </button>
+          ))}
+        </nav>
+
+        {/* Footer */}
+        <div className="absolute bottom-0 left-0 w-full p-4 border-t border-gray-200 dark:border-gray-700">
+          <button className="flex items-center gap-3 px-4 py-2 rounded-lg text-red-600 hover:bg-red-50 dark:hover:bg-gray-800 transition w-full">
+            <LogOut className="w-5 h-5" />
+            <span className="text-base font-medium">Cerrar sesión</span>
+          </button>
+        </div>
+      </aside>
+    </>
   );
 };
 
 export default Sidebar;
+
+

@@ -8,14 +8,18 @@
     "start": "next start"
   },
   "dependencies": {
+    "@tailwindcss/forms": "^0.5.10",
+    "@tailwindcss/typography": "^0.5.16",
     "axios": "^1.8.3",
     "framer-motion": "^12.23.12",
     "lucide-react": "^0.535.0",
     "next": "^15.2.3",
+    "nprogress": "^0.2.0",
     "react": "latest",
     "react-dom": "latest",
     "react-icons": "^5.5.0",
-    "react-markdown": "^10.1.0"
+    "react-markdown": "^10.1.0",
+    "remark-gfm": "^4.0.1"
   },
   "proxy": "http://192.168.101.7:8090",
   "devDependencies": {

@@ -1,23 +1,25 @@
+"use client";
 import { useEffect, useState, useContext } from "react";
 import { useRouter } from "next/router";
 import Sidebar from "../components/Sidebar";
 import Feed from "../components/Feed";
 import FriendsList from "../components/FriendsList";
 import { AuthContext } from "../../context/AuthContext";
+import { motion } from "framer-motion";
 
 const IndexPage = () => {
   const [mostrarBienvenida, setMostrarBienvenida] = useState(false);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
-  const { user, token, logout, updateUser, loadingAuth } = useContext(AuthContext);
+  const { token, logout, updateUser, loadingAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    if (typeof window === "undefined") return; //  Esto es por SSR en Next.js
-    
-    if (loadingAuth) return; //  Espera a que AuthContext termine de cargar
+    if (typeof window === "undefined") return;
+
+    if (loadingAuth) return;
 
     if (!token) {
-      console.warn(" Token no encontrado, redirigiendo al login...");
+      console.warn("❌ Token no encontrado, redirigiendo al login...");
       router.push("/login");
       return;
     }
@@ -29,21 +31,23 @@ const IndexPage = () => {
 
     const fetchUserData = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json"
-          },
-          credentials: "include"
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+          }
+        );
 
         if (!response.ok) throw new Error("Token inválido o expirado");
 
         const data = await response.json();
-        console.log(" Datos completos del usuario:", data);
+        console.log("✅ Datos completos del usuario:", data);
 
         updateUser(data);
-
       } catch (err) {
         console.error("❌ Error al obtener datos del usuario:", err);
         logout();
@@ -54,34 +58,61 @@ const IndexPage = () => {
     };
 
     fetchUserData();
+  }, [loadingAuth, token]);
 
-  }, [loadingAuth, token]); //  Corrección: escuchamos los cambios de loadingAuth y token
-
-  if (loading) return null; // Opcional: aquí puedes poner un spinner o mensaje de carga
+  // 🔄 Loading Spinner
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+        <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"></div>
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="flex mt-20 px-4">
-        <div className="w-1/5">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+      {/* GRID principal */}
+      <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-20 px-4 w-full lg:max-w-7xl lg:mx-auto">
+        
+        {/* Sidebar izquierdo */}
+        <aside className="hidden md:block md:col-span-1">
           <Sidebar />
-        </div>
-        <div className="w-3/5 px-4">
+        </aside>
+
+        {/* Feed central */}
+        <main className="col-span-1 md:col-span-3 lg:col-span-4 max-w-2xl mx-auto w-full">
           {mostrarBienvenida && (
-            <div className="bg-white rounded-2xl shadow p-6 mb-6">
-              <h1 className="text-3xl font-bold mb-2">Bienvenido a tu página de inicio</h1>
-              <p className="text-lg text-gray-600">
-                Aquí puedes ver las publicaciones, interactuar con tus amigos y más.
+            <motion.div
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6 mb-6"
+            >
+              <h1 className="text-2xl font-bold mb-2">
+                🎉 Bienvenido a tu página de inicio
+              </h1>
+              <p className="text-base text-gray-600 dark:text-gray-300">
+                Aquí puedes ver las publicaciones, interactuar con tus amigos y mucho más.
               </p>
-            </div>
+            </motion.div>
           )}
+
+          {/* Feed */}
           <Feed />
-        </div>
-        <div className="w-1/5">
-          <FriendsList />
-        </div>
+        </main>
+
+        {/* Sidebar derecho */}
+        <aside className="hidden lg:block lg:col-span-2">
+          <div className="sticky top-24">
+            <FriendsList />
+          </div>
+        </aside>
       </div>
     </div>
   );
 };
 
 export default IndexPage;
+
+
+

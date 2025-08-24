@@ -2,4 +2,254 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =============================
+   🎨 SCROLLBAR STYLING
+   ============================= */
+::-webkit-scrollbar {
+  width: 8px;
+}
 
+::-webkit-scrollbar-track {
+  background: #f1f5f9;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-track {
+  background: #1e293b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: 4px;
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #475569;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #64748b;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cbd5e1 #f1f5f9;
+}
+
+.dark * {
+  scrollbar-color: #475569 #1e293b;
+}
+
+/* =============================
+   🖼️ IMAGE OPTIMIZATION
+   ============================= */
+img {
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  transform: translateZ(0);
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  will-change: transform, opacity;
+}
+
+img:hover {
+  transform: scale(1.02);
+}
+
+/* Next.js <Image /> */
+img[data-nimg] {
+  image-rendering: -webkit-optimize-contrast !important;
+  image-rendering: crisp-edges !important;
+  -webkit-backface-visibility: hidden !important;
+  backface-visibility: hidden !important;
+  transform: translateZ(0) !important;
+}
+
+/* Responsive container */
+.image-container {
+  position: relative;
+  width: 100%;
+  height: auto;
+  overflow: hidden;
+  border-radius: 1rem;
+  background-color: #f9fafb;
+}
+
+.dark .image-container {
+  background-color: #1f2937;
+}
+
+/* Prevent layout shift */
+.post-image-container {
+  aspect-ratio: 16/9;
+  position: relative;
+  background-color: #f3f4f6;
+  border-radius: 1rem;
+  overflow: hidden;
+  min-height: 200px;
+}
+
+.dark .post-image-container {
+  background-color: #374151;
+}
+
+/* Loading skeleton */
+.image-loading {
+  animation: imageLoading 1.5s ease-in-out infinite;
+  background: linear-gradient(
+    90deg,
+    #f3f4f6 25%,
+    #e5e7eb 50%,
+    #f3f4f6 75%
+  );
+  background-size: 200% 100%;
+}
+
+.dark .image-loading {
+  background: linear-gradient(
+    90deg,
+    #374151 25%,
+    #4b5563 50%,
+    #374151 75%
+  );
+  background-size: 200% 100%;
+}
+
+@keyframes imageLoading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Image error state */
+.image-error {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f9fafb;
+  color: #6b7280;
+  font-size: 0.875rem;
+  border: 2px dashed #d1d5db;
+  border-radius: 1rem;
+  min-height: 200px;
+  transition: all 0.3s ease;
+}
+
+.dark .image-error {
+  background-color: #1f2937;
+  color: #9ca3af;
+  border-color: #4b5563;
+}
+
+.image-error:hover {
+  background-color: #f3f4f6;
+  border-color: #9ca3af;
+}
+
+.dark .image-error:hover {
+  background-color: #374151;
+  border-color: #6b7280;
+}
+
+/* Fill mode for Next.js images */
+img[data-nimg="fill"] {
+  width: 100% !important;
+  height: 100% !important;
+  position: absolute !important;
+  inset: 0 !important;
+  object-fit: cover;
+  object-position: center;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* =============================
+   📱 FEED + CARDS
+   ============================= */
+.feed-container {
+  max-width: 42rem;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .feed-container {
+    padding: 2rem 1.5rem;
+  }
+}
+
+/* 🔒 Fuerza fondo sólido en las publicaciones */
+.post-card {
+  background-color: #ffffff !important; /* blanco fijo */
+  border-radius: 1.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.dark .post-card {
+  background-color: #1f2937 !important; /* gris oscuro fijo */
+  border-color: #374151;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+.post-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+}
+
+.dark .post-card:hover {
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.4);
+}
+
+/* New post form */
+.nuevo-post-form {
+  background: #ffffff !important;
+  border-radius: 1.5rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  border: 1px solid #f3f4f6;
+  overflow: hidden;
+}
+
+.dark .nuevo-post-form {
+  background: #1f2937 !important;
+  border-color: #374151;
+}
+
+/* =============================
+   🔘 BUTTONS
+   ============================= */
+.btn-primary {
+  background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+  color: white;
+  border: none;
+  border-radius: 1rem;
+  padding: 0.75rem 1.5rem;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 14px rgba(59, 130, 246, 0.25);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.35);
+}
+
+.btn-primary:active {
+  transform: translateY(0);
+}
+
+.btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
