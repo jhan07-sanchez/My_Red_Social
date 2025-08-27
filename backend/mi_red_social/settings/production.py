@@ -1,6 +1,6 @@
 from .base import *  # noqa: F403, F401
 
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['192.168.101.7', '192.168.101.7:8090']
 

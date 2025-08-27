@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent.parent
 SECRET_KEY = 'django-insecure-xbn^t@7j-(8vye=&@t5e1g@!b!&#gsd5ob%h7d=5z#(gquuoie'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -76,6 +76,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'mi_red_social.urls'
+
 
 TEMPLATES = [
     {
@@ -133,9 +134,9 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-co'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'America/Bogota'
 
 USE_I18N = True
 
@@ -146,6 +147,9 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.1/howto/static-files/
 
 STATIC_URL = 'static/'
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+STATIC_ROOT = BASE_DIR / 'static'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
@@ -195,11 +199,11 @@ AUTHENTICATION_BACKENDS = [
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'  # Por ejemplo, si usas Gmail
+EMAIL_HOST = 'smtp.gmail.com'  #  si usas Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jhansancheza@gmail.com'  # Tu dirección de correo
-EMAIL_HOST_PASSWORD = 'vebs vnnu pmdz phbw'  # Tu contraseña de correo
+EMAIL_HOST_USER = 'jhansancheza@gmail.com'  #  dirección de correo
+EMAIL_HOST_PASSWORD = 'vebs vnnu pmdz phbw'  #  contraseña de correo
 
 # Configuración de sesiones en settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guarda las sesiones
@@ -207,6 +211,7 @@ SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guard
 
 # Configuración de Django Channels
 ASGI_APPLICATION = 'mi_red_social.asgi.application'
+
 
 # Redis para el manejo de WebSockets
 CHANNEL_LAYERS = {
@@ -220,12 +225,6 @@ CHANNEL_LAYERS = {
 
 
 
-
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'media'
-
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 # Fuerza el dominio del backend al construir URLs absolutas
 USE_X_FORWARDED_HOST = True
