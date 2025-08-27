@@ -4,6 +4,8 @@ from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework import viewsets, permissions
+from apps.amistades.models import Amistad
+from django.db.models import Q
 
 from apps.publicaciones.models import Publicacion, Comentario, Reaccion
 from apps.publicaciones.serializers import  (
@@ -12,13 +14,43 @@ from apps.publicaciones.serializers import  (
     ReaccionSerializer,
 )
 
+# publicaciones/views.py
+
 class PublicacionViewSet(viewsets.ModelViewSet):
-    queryset = Publicacion.objects.all().order_by('-fecha_creacion')
     serializer_class = PublicacionSerializer
     permission_classes = [IsAuthenticated]
 
+    def get_queryset(self):
+        user = self.request.user
+
+        # ✅ Publicaciones propias
+        publicaciones_propias = Publicacion.objects.filter(usuario=user)
+
+        # ✅ Buscar amigos (donde el usuario sea el que envió o recibió la solicitud y esté aceptada)
+        amigos_ids = Amistad.objects.filter(
+            Q(usuario_envia=user, estado=Amistad.ACEPTADA) |
+            Q(usuario_recibe=user, estado=Amistad.ACEPTADA)
+        ).values_list("usuario_envia_id", "usuario_recibe_id")
+
+        # Convertimos los pares en una lista de IDs (excluyendo el propio user.id)
+        amigos_ids = set([id for tupla in amigos_ids for id in tupla if id != user.id])
+
+        # ✅ Publicaciones de amigos con privacidad "amigos"
+        publicaciones_amigos = Publicacion.objects.filter(
+            usuario__id__in=amigos_ids,
+            privacidad="amigos"
+        )
+
+        # ✅ Publicaciones públicas de cualquiera
+        publicaciones_publicas = Publicacion.objects.filter(privacidad="publica")
+
+        # 🔥 Unimos todo
+        return (
+            publicaciones_propias | publicaciones_amigos | publicaciones_publicas
+        ).distinct().order_by("-fecha_creacion")
+
     def get_serializer_context(self):
-        return {'request': self.request}  # 🔥 importante
+        return {'request': self.request}
 
     def perform_create(self, serializer):
         serializer.save(usuario=self.request.user)
@@ -43,6 +75,7 @@ class PublicacionViewSet(viewsets.ModelViewSet):
         )
         serializer = ReaccionSerializer(reaccion, context={'request': request})
         return Response(serializer.data, status=status.HTTP_201_CREATED)
+
 
 
 class ComentarioViewSet(viewsets.ModelViewSet):

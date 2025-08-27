@@ -2,13 +2,29 @@ from django.db import models
 from django.conf import settings
 
 class Publicacion(models.Model):
-    usuario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='publicaciones')
+    PRIVACIDAD_CHOICES = [
+        ('publico', 'Público'),
+        ('amigos', 'Solo amigos'),
+        ('privado', 'Solo yo'),
+    ]
+
+    usuario = models.ForeignKey(
+        settings.AUTH_USER_MODEL, 
+        on_delete=models.CASCADE, 
+        related_name='publicaciones'
+    )
     contenido = models.TextField(blank=True)
     imagen = models.ImageField(upload_to='publicaciones/', blank=True, null=True)
     fecha_creacion = models.DateTimeField(auto_now_add=True)
+    privacidad = models.CharField(
+        max_length=10, 
+        choices=PRIVACIDAD_CHOICES, 
+        default='publico'
+    )
 
     def __str__(self):
         return f"Publicación de {self.usuario.email}"
+
 
 class Comentario(models.Model):
     publicacion = models.ForeignKey(Publicacion, on_delete=models.CASCADE, related_name='comentarios')
