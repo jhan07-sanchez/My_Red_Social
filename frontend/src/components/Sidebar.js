@@ -45,11 +45,12 @@ const Sidebar = () => {
       {/* Sidebar */}
       <aside
         className={`
-          fixed top-16 left-0 h-[calc(100%-4rem)] w-72 bg-white dark:bg-gray-900
-          border-r border-gray-200 dark:border-gray-700 shadow-lg z-50
-          transform transition-transform duration-300 ease-in-out
-          ${open ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
-        `}
+           fixed top-20 left-4 h-[calc(100%-8.9rem)] w-72 bg-white/80 dark:bg-gray-900/80
+           border-r border-gray-200 dark:border-gray-700 shadow-2xl z-50
+           mt-4 ml-4 rounded-2xl backdrop-blur-xl overflow-hidden
+           transition-transform duration-300 ease-in-out
+           ${open ? "block translate-x-0" : "hidden"} md:block md:translate-x-0
+         `}
       >
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200 dark:border-gray-700">

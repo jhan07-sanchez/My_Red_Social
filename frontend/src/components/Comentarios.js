@@ -75,8 +75,8 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
               {/* Avatar */}
               <div className="flex-shrink-0">
                 <img
-                  src={c.autor_foto || "/img/default-profile.png"}
-                  alt={c.autor_nombre || "Usuario"}
+                  src={c.usuario?.foto_perfil_url || "/img/default-profile.png"}
+                  alt={c.usuario?.nombre || "Usuario"}
                   className="w-8 h-8 rounded-full object-cover"
                 />
               </div>
@@ -84,7 +84,7 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
               {/* Contenido */}
               <div className="bg-gray-100 dark:bg-gray-800 px-3 py-2 rounded-2xl max-w-sm">
                 <p className="text-sm font-semibold text-gray-800 dark:text-gray-200">
-                  {c.autor_nombre}
+                  {c.usuario?.nombre}
                 </p>
                 <div className="text-sm text-gray-700 dark:text-gray-300 leading-snug">
                   <ReactMarkdown>{c.contenido}</ReactMarkdown>
@@ -110,11 +110,9 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
         {/* Avatar del usuario actual */}
         <div className="flex-shrink-0">
           <img
-            src={
-              usuarioActual?.foto_perfil_url || "/img/default-profile.png"
-            }
+            src={usuarioActual?.foto_perfil_url || "/img/default-profile.png"}
             alt={usuarioActual?.nombre || "Tú"}
-            className="w-9 h-9 rounded-full object-cover"
+            className="w-8 h-8 rounded-full object-cover"
           />
         </div>
 
@@ -140,6 +138,7 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
 };
 
 export default Comentarios;
+
 
 
 

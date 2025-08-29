@@ -24,10 +24,9 @@ export default function LoginForm() {
   const handleEmailChange = (e) => {
     const value = e.target.value;
     setEmail(value);
-    
     if (errors.email && value) {
       if (validateEmail(value)) {
-        setErrors(prev => ({ ...prev, email: null }));
+        setErrors((prev) => ({ ...prev, email: null }));
       }
     }
   };
@@ -35,30 +34,27 @@ export default function LoginForm() {
   const handlePasswordChange = (e) => {
     const value = e.target.value;
     setPassword(value);
-    
     if (errors.password && value.length >= 6) {
-      setErrors(prev => ({ ...prev, password: null }));
+      setErrors((prev) => ({ ...prev, password: null }));
     }
   };
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    
+
     // Validación del frontend
     const newErrors = {};
-    
     if (!email) {
       newErrors.email = "El correo es requerido";
     } else if (!validateEmail(email)) {
       newErrors.email = "Formato de correo inválido";
     }
-    
     if (!password) {
       newErrors.password = "La contraseña es requerida";
     } else if (password.length < 6) {
       newErrors.password = "La contraseña debe tener al menos 6 caracteres";
     }
-    
+
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
       return;
@@ -78,7 +74,6 @@ export default function LoginForm() {
 
       if (!response.ok) {
         const errorData = await response.json();
-        
         if (response.status === 401) {
           setErrors({ general: "Credenciales incorrectas. Verifica tu email y contraseña." });
         } else if (response.status === 400) {
@@ -91,23 +86,34 @@ export default function LoginForm() {
 
       const data = await response.json();
       console.log("Respuesta completa del backend:", data);
-      console.log("Objeto user:", data.user);
 
-      const { user, access_token, refresh_token } = data;
+      let { user, access_token, refresh_token } = data;
+
+      // 🔹 Aseguramos que el usuario siempre tenga foto_perfil_url
+      if (!user.foto_perfil_url && user.foto_perfil) {
+        user.foto_perfil_url = `${process.env.NEXT_PUBLIC_BACKEND_URL}${user.foto_perfil}`;
+      }
 
       // Guardar preferencia de "recordarme"
       if (rememberMe) {
         localStorage.setItem("remember_me", "true");
       }
 
+      // 🔹 Guardar usuario y tokens en localStorage
+      localStorage.setItem("usuario", JSON.stringify(user));
+      localStorage.setItem("token", access_token);
+      localStorage.setItem("refresh_token", refresh_token);
+
+      // 🔹 Actualizar contexto de auth
       login(user, access_token, refresh_token);
 
-      // Mostrar notificación de éxito
-      const successNotification = document.createElement('div');
-      successNotification.className = 'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
+      // Notificación de éxito
+      const successNotification = document.createElement("div");
+      successNotification.className =
+        "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50";
       successNotification.textContent = `¡Bienvenido de vuelta, ${user.nombre}!`;
       document.body.appendChild(successNotification);
-      
+
       setTimeout(() => {
         document.body.removeChild(successNotification);
       }, 3000);
@@ -115,7 +121,9 @@ export default function LoginForm() {
       router.push("/");
     } catch (err) {
       console.error("Error al iniciar sesión:", err);
-      setErrors({ general: "Error de conexión. Verifica tu internet e intenta nuevamente." });
+      setErrors({
+        general: "Error de conexión. Verifica tu internet e intenta nuevamente.",
+      });
     } finally {
       setLoading(false);
     }
@@ -124,19 +132,16 @@ export default function LoginForm() {
   // Animaciones
   const containerVariants = {
     hidden: { opacity: 0, y: 50 },
-    visible: { 
-      opacity: 1, 
+    visible: {
+      opacity: 1,
       y: 0,
-      transition: { 
-        duration: 0.6,
-        ease: "easeOut"
-      }
-    }
+      transition: { duration: 0.6, ease: "easeOut" },
+    },
   };
 
   const inputVariants = {
     focus: { scale: 1.02, transition: { duration: 0.2 } },
-    blur: { scale: 1, transition: { duration: 0.2 } }
+    blur: { scale: 1, transition: { duration: 0.2 } },
   };
 
   return (
@@ -155,15 +160,15 @@ export default function LoginForm() {
 
         <div className="relative z-10">
           {/* Header */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
             className="flex flex-col items-center mb-8"
           >
-            <motion.img 
-              src="/logo-socialink.png" 
-              alt="Logo Socialink" 
+            <motion.img
+              src="/logo-socialink.png"
+              alt="Logo Socialink"
               className="w-24 h-24 mb-4"
               whileHover={{ scale: 1.1, rotate: 5 }}
               transition={{ duration: 0.3 }}
@@ -196,9 +201,9 @@ export default function LoginForm() {
                 variants={inputVariants}
                 whileFocus="focus"
                 className={`flex items-center bg-gray-800/50 backdrop-blur-sm px-4 py-3 rounded-xl border transition-all duration-300 ${
-                  errors.email 
-                    ? 'border-red-500/50 bg-red-500/10' 
-                    : 'border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500'
+                  errors.email
+                    ? "border-red-500/50 bg-red-500/10"
+                    : "border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500"
                 }`}
               >
                 <FaEnvelope className="text-cyan-400 mr-3 text-sm" />
@@ -231,9 +236,9 @@ export default function LoginForm() {
                 variants={inputVariants}
                 whileFocus="focus"
                 className={`flex items-center bg-gray-800/50 backdrop-blur-sm px-4 py-3 rounded-xl border transition-all duration-300 ${
-                  errors.password 
-                    ? 'border-red-500/50 bg-red-500/10' 
-                    : 'border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500'
+                  errors.password
+                    ? "border-red-500/50 bg-red-500/10"
+                    : "border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500"
                 }`}
               >
                 <FaLock className="text-cyan-400 mr-3 text-sm" />
@@ -266,7 +271,7 @@ export default function LoginForm() {
 
             {/* Opciones adicionales */}
             <div className="flex justify-between items-center text-sm">
-              <motion.label 
+              <motion.label
                 whileHover={{ scale: 1.05 }}
                 className="flex items-center cursor-pointer"
               >
@@ -278,7 +283,7 @@ export default function LoginForm() {
                 />
                 <span className="text-gray-300">Recordarme</span>
               </motion.label>
-              
+
               <motion.button
                 type="button"
                 onClick={() => router.push("/forgot-password")}
@@ -298,8 +303,8 @@ export default function LoginForm() {
               whileTap={!loading ? { scale: 0.98 } : {}}
               className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
                 loading
-                  ? 'bg-gray-600 cursor-not-allowed'
-                  : 'bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg hover:shadow-cyan-500/25'
+                  ? "bg-gray-600 cursor-not-allowed"
+                  : "bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg hover:shadow-cyan-500/25"
               }`}
             >
               {loading ? (

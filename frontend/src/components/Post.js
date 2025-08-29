@@ -55,12 +55,7 @@ const Post = ({ post }) => {
         }
       />
 
-      {/* Botón para ver más comentarios */}
-      {post.comentarios && post.comentarios.length > 3 && (
-        <button className="text-primary dark:text-blue-400 mt-3 text-sm font-medium hover:underline">
-          Ver más comentarios ({post.comentarios.length - 3})
-        </button>
-      )}
+      
     </div>
   );
 };
