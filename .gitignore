@@ -7,6 +7,7 @@ frontend/.next/
 
 # Entornos locales
 .env.local
+*/.env.local
 
 # Ignorar archivos de compilación de Next.js
 frontend/.next/cache/
