@@ -118,7 +118,8 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
-              <Home className="w-6 h-6" />
+              <Home className="w-6 h-6 text-white dark:text-gray-200" />
+
             </motion.div>
           </Link>
 
@@ -129,7 +130,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
-              <Users className="w-6 h-6" />
+              <Users className="w-6 h-6 text-white dark:text-gray-200" />
             </motion.div>
           </Link>
 
@@ -140,7 +141,7 @@ const Navbar = () => {
               whileTap={{ scale: 0.95 }}
               className="relative p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
-              <MessageCircle className="w-6 h-6" />
+              <MessageCircle className="w-6 h-6 text-white dark:text-gray-200" />
               <span className="absolute -top-1 -right-1 bg-green-500 text-xs rounded-full px-1.5 py-0.5 text-white font-medium">
                 2
               </span>
@@ -153,7 +154,7 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="relative p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
           >
-            <Bell className="w-6 h-6" />
+            <Bell className="w-6 h-6 text-white dark:text-gray-200" />
             {notifications > 0 && (
               <motion.span 
                 initial={{ scale: 0 }}

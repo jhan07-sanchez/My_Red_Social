@@ -63,17 +63,17 @@ const IndexPage = () => {
   // 🔄 Loading Spinner
   if (loading) {
     return (
-      <div className="flex items-center justify-center h-screen bg-gray-100 dark:bg-gray-900">
+      <div className="flex items-center justify-center h-screen bg-neutral-light dark:bg-neutral-dark">
         <div className="animate-spin h-12 w-12 border-4 border-blue-500 border-t-transparent rounded-full"></div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900 text-gray-900 dark:text-white">
+    <div className="min-h-screen bg-neutral-light dark:bg-neutral-dark text-gray-900 dark:text-white">
       {/* GRID principal */}
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-20 px-4 w-full lg:max-w-7xl lg:mx-auto">
-        
+               
         {/* Sidebar izquierdo */}
         <aside className="hidden md:block md:col-span-1">
           <Sidebar />
@@ -113,6 +113,5 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
 
 

@@ -4,25 +4,29 @@ module.exports = {
   content: [
     "./src/**/*.{js,ts,jsx,tsx}",
     "./components/**/*.{js,ts,jsx,tsx}",
-    "./app/**/*.{js,ts,jsx,tsx}", // si usas Next.js 13+
+    "./app/**/*.{js,ts,jsx,tsx}", // Next.js 13+
   ],
   theme: {
     extend: {
       colors: {
         primary: {
-          DEFAULT: "#3B82F6", // azul Tailwind
+          DEFAULT: "#3B82F6",
           dark: "#2563EB",
           light: "#60A5FA",
         },
         secondary: {
-          DEFAULT: "#F59E0B", // naranja
+          DEFAULT: "#F59E0B",
           dark: "#D97706",
           light: "#FBBF24",
         },
         neutral: {
           light: "#F3F4F6",
-          dark: "#1F2937",
+          dark: "#0f1419",
         },
+      },
+      fontFamily: {
+        sans: ["Inter", "ui-sans-serif", "system-ui"],
+        display: ["Poppins", "sans-serif"],
       },
       boxShadow: {
         soft: "0 4px 12px rgba(0,0,0,0.05)",
@@ -35,7 +39,8 @@ module.exports = {
       animation: {
         fadeIn: "fadeIn 0.3s ease-in-out",
         slideUp: "slideUp 0.4s ease-in-out",
-        bounceSlow: "bounce 2s infinite",
+        pulseSlow: "pulse 2s infinite",
+        spinSlow: "spin 3s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -52,5 +57,6 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
+    require("tailwind-scrollbar"),
   ],
 };

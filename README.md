@@ -58,28 +58,19 @@ SOCIALINK es una red social moderna desarrollada con **Django REST Framework** e
 - **Autenticación**: Tokens JWT, verificación por email
 - **Despliegue**: Ubuntu Server + Apache (manual)
 
-
-
-
-
 ✅ Funcionalidades ya implementadas o en progreso
-Funcionalidad	Estado
-Registro con verificación por correo	✅ Completado
-Inicio de sesión con email y contraseña	✅ Completado
-Autenticación con tokens (localStorage)	✅ Completado
-Foto de perfil y biografía en modelo	✅ Completado
-Mostrar publicaciones de usuario y amigos	🛠️ En progreso
-Crear publicaciones con imagen y texto	🛠️ En progreso
-Reacciones y comentarios a publicaciones	🛠️ En progreso
-Sistema de amigos/seguidores	✅ Completado
-Notificaciones, mensajes, historias, grupos	🔜 Por hacer
-Admin Django para gestión total del sistema	✅ Completado
-Diseño de frontend tipo Facebook	🛠️ En progreso
-
-
-
-
-
+Funcionalidad Estado
+Registro con verificación por correo✅ Completado
+Inicio de sesión con email y contraseña✅ Completado
+Autenticación con tokens (localStorage)✅ Completado
+Foto de perfil y biografía en modelo✅ Completado
+Mostrar publicaciones de usuario y amigos🛠️ En progreso
+Crear publicaciones con imagen y texto🛠️ En progreso
+Reacciones y comentarios a publicaciones🛠️ En progreso
+Sistema de amigos/seguidores✅ Completado
+Notificaciones, mensajes, historias, grupos🔜 Por hacer
+Admin Django para gestión total del sistema✅ Completado
+Diseño de frontend tipo Facebook🛠️ En progreso
 
 ## 🛠️ Panel de Administración – Django Admin
 
