@@ -21,7 +21,7 @@ module.exports = {
         },
         neutral: {
           light: "#F3F4F6",
-          dark: "#0f1419",
+          dark: "#000000",
         },
       },
       fontFamily: {
@@ -57,6 +57,8 @@ module.exports = {
   plugins: [
     require("@tailwindcss/typography"),
     require("@tailwindcss/forms"),
-    require("tailwind-scrollbar"),
+    require("tailwind-scrollbar")({ nocompatible: true }),
   ],
+
+  
 };

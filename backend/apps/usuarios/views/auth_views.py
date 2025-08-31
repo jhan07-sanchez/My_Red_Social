@@ -81,11 +81,13 @@ class ActivarCuentaView(APIView):
 
 class VerificarOTPView(APIView):
     """Verifica el código OTP enviado por correo para activar la cuenta."""
-
+    permission_classes = [AllowAny]
     def post(self, request):
         # Verificar si se enviaron los datos necesarios
         email = request.data.get('email')
         otp = request.data.get('otp')
+        print(f"Email recibido: {email}")
+        print(f"OTP recibido: {otp}")
 
         if not email or not otp:
             return Response({"error": "Faltan parámetros: email y otp son requeridos."}, status=status.HTTP_400_BAD_REQUEST)

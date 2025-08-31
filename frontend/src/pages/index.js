@@ -80,7 +80,7 @@ const IndexPage = () => {
         </aside>
 
         {/* Feed central */}
-        <main className="col-span-1 md:col-span-3 lg:col-span-4 max-w-2xl mx-auto w-full">
+        <main className="col-span-1 md:col-span-3 lg:col-span-4 max-w-2xl mx-auto w-full rounded-2xl">
           {mostrarBienvenida && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}

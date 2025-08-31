@@ -57,3 +57,22 @@ a {
 .custom-scrollbar::-webkit-scrollbar-track {
   background-color: #f3f4f6;
 }
+
+/* Elimina fondo blanco en inputs al escribir o autofill */
+input, textarea {
+  background-color: transparent !important;
+  color: #fff !important;
+}
+
+/* Evitar el fondo blanco/amarillo en el autofill de Chrome */
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+textarea:-webkit-autofill,
+textarea:-webkit-autofill:hover,
+textarea:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  -webkit-text-fill-color: #fff !important;
+  transition: background-color 9999s ease-in-out 0s !important;
+}
+

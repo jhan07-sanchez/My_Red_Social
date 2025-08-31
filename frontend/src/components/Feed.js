@@ -84,45 +84,50 @@ const Feed = () => {
     setPosts([nuevoPost, ...posts]);
   };
 
-  return (
-    <div className="bg-gray-100 dark:bg-gray-900 min-h-screen py-8 px-4">
-      <div className="max-w-2xl mx-auto">
-        {/* Título */}
-        <h2 className="text-2xl font-bold mb-6 text-center text-gray-800 dark:text-gray-100">
-          Crear una nueva publicación
-        </h2>
+ return (
+  <div className="w-full">
+    <div className="max-w-2xl mx-auto space-y-6">
+      {/* Título */}
+      <h2 className="text-2xl font-bold text-center text-gray-800 dark:text-gray-100">
+        Crear una nueva publicación
+      </h2>
 
-        {/* Crear nuevo post */}
-        <div className="mb-6">
-          <NuevoPost onPostCreado={agregarNuevoPost} />
-        </div>
-
-        {/* Estado: cargando */}
-        {loadingPosts && (
-          <p className="text-gray-500 dark:text-gray-400 text-center">
-            Cargando publicaciones...
-          </p>
-        )}
-
-        {/* Estado: error */}
-        {error && (
-          <p className="text-red-500 text-center font-medium">{error}</p>
-        )}
-
-        {/* Estado: vacío */}
-        {!loadingPosts && posts.length === 0 && !error && (
-          <p className="text-gray-500 dark:text-gray-400 text-center mt-4">
-            No hay publicaciones aún.
-          </p>
-        )}
-
-        {/* Lista de publicaciones */}
-        {posts.map((post) => (
-          <Post key={post.id} post={post} />
-        ))}
+      {/* Crear nuevo post */}
+      <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6">
+        <NuevoPost onPostCreado={agregarNuevoPost} />
       </div>
+
+      {/* Estado: cargando */}
+      {loadingPosts && (
+        <p className="text-gray-500 dark:text-gray-400 text-center">
+          Cargando publicaciones...
+        </p>
+      )}
+
+      {/* Estado: error */}
+      {error && (
+        <p className="text-red-500 text-center font-medium">{error}</p>
+      )}
+
+      {/* Estado: vacío */}
+      {!loadingPosts && posts.length === 0 && !error && (
+        <p className="text-gray-500 dark:text-gray-400 text-center mt-4">
+          No hay publicaciones aún.
+        </p>
+      )}
+
+      {/* Lista de publicaciones */}
+      {posts.map((post) => (
+        <div
+          key={post.id}
+          className="bg-white dark:bg-gray-800 rounded-2xl shadow-md p-6"
+        >
+          <Post post={post} />
+        </div>
+      ))}
     </div>
-  );
+  </div>
+);
 };
 
 export default Feed;
