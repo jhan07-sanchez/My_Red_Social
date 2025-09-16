@@ -6,13 +6,21 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('publicaciones', '0001_initial'),
+        ("publicaciones", "0001_initial"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='publicacion',
-            name='privacidad',
-            field=models.CharField(choices=[('publico', 'Público'), ('amigos', 'Solo amigos'), ('privado', 'Solo yo')], default='publico', max_length=10),
+            model_name="publicacion",
+            name="privacidad",
+            field=models.CharField(
+                choices=[
+                    ("publico", "Público"),
+                    ("amigos", "Solo amigos"),
+                    ("privado", "Solo yo"),
+                ],
+                default="publico",
+                max_length=10,
+            ),
         ),
     ]

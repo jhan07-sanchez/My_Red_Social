@@ -6,3 +6,4 @@ Pillow
 django-cors-headers
 django-environ
 django-extensions
+black

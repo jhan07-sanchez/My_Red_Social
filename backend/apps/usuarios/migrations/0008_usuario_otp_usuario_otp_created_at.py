@@ -6,18 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('usuarios', '0007_alter_friendrequest_unique_together_and_more'),
+        ("usuarios", "0007_alter_friendrequest_unique_together_and_more"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='usuario',
-            name='otp',
+            model_name="usuario",
+            name="otp",
             field=models.CharField(blank=True, max_length=6, null=True),
         ),
         migrations.AddField(
-            model_name='usuario',
-            name='otp_created_at',
+            model_name="usuario",
+            name="otp_created_at",
             field=models.DateTimeField(blank=True, null=True),
         ),
     ]

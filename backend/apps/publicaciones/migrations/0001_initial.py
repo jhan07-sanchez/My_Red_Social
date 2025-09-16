@@ -15,36 +15,111 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Publicacion',
+            name="Publicacion",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contenido', models.TextField(blank=True)),
-                ('imagen', models.ImageField(blank=True, null=True, upload_to='publicaciones/')),
-                ('fecha_creacion', models.DateTimeField(auto_now_add=True)),
-                ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='publicaciones', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("contenido", models.TextField(blank=True)),
+                (
+                    "imagen",
+                    models.ImageField(
+                        blank=True, null=True, upload_to="publicaciones/"
+                    ),
+                ),
+                ("fecha_creacion", models.DateTimeField(auto_now_add=True)),
+                (
+                    "usuario",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="publicaciones",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Comentario',
+            name="Comentario",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('contenido', models.TextField()),
-                ('fecha_creacion', models.DateTimeField(auto_now_add=True)),
-                ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('publicacion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='comentarios', to='publicaciones.publicacion')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                ("contenido", models.TextField()),
+                ("fecha_creacion", models.DateTimeField(auto_now_add=True)),
+                (
+                    "usuario",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
+                (
+                    "publicacion",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="comentarios",
+                        to="publicaciones.publicacion",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Reaccion',
+            name="Reaccion",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('tipo', models.CharField(choices=[('like', '👍'), ('love', '❤️'), ('haha', '😂'), ('wow', '😮'), ('sad', '😢'), ('angry', '😡')], max_length=10)),
-                ('fecha_creacion', models.DateTimeField(auto_now_add=True)),
-                ('publicacion', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reacciones', to='publicaciones.publicacion')),
-                ('usuario', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True,
+                        primary_key=True,
+                        serialize=False,
+                        verbose_name="ID",
+                    ),
+                ),
+                (
+                    "tipo",
+                    models.CharField(
+                        choices=[
+                            ("like", "👍"),
+                            ("love", "❤️"),
+                            ("haha", "😂"),
+                            ("wow", "😮"),
+                            ("sad", "😢"),
+                            ("angry", "😡"),
+                        ],
+                        max_length=10,
+                    ),
+                ),
+                ("fecha_creacion", models.DateTimeField(auto_now_add=True)),
+                (
+                    "publicacion",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reacciones",
+                        to="publicaciones.publicacion",
+                    ),
+                ),
+                (
+                    "usuario",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'unique_together': {('publicacion', 'usuario', 'tipo')},
+                "unique_together": {("publicacion", "usuario", "tipo")},
             },
         ),
     ]

@@ -15,11 +15,11 @@ from channels.auth import AuthMiddlewareStack
 from apps.usuarios.routing import websocket_urlpatterns
 
 
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'mi_red_social.settings')
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "mi_red_social.settings")
 
-application = ProtocolTypeRouter({
-    "http": get_asgi_application(),
-    "websocket": AuthMiddlewareStack(
-        URLRouter(websocket_urlpatterns)
-    ),
-})
+application = ProtocolTypeRouter(
+    {
+        "http": get_asgi_application(),
+        "websocket": AuthMiddlewareStack(URLRouter(websocket_urlpatterns)),
+    }
+)
