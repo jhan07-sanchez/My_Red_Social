@@ -1,21 +1,21 @@
-import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import ReactMarkdown from "react-markdown";
-import { Send } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import ReactMarkdown from 'react-markdown';
+import { Send } from 'lucide-react';
 
 const Comentarios = ({ postId, comentariosIniciales }) => {
-  const [comentario, setComentario] = useState("");
+  const [comentario, setComentario] = useState('');
   const [comentarios, setComentarios] = useState(comentariosIniciales || []);
   const [mostrarTodos, setMostrarTodos] = useState(false);
   const [usuarioActual, setUsuarioActual] = useState(null);
 
   const token =
-    typeof window !== "undefined" ? localStorage.getItem("token") : null;
+    typeof window !== 'undefined' ? localStorage.getItem('token') : null;
 
   // Traemos los datos del usuario desde localStorage
   useEffect(() => {
-    if (typeof window !== "undefined") {
-      const user = localStorage.getItem("usuario");
+    if (typeof window !== 'undefined') {
+      const user = localStorage.getItem('usuario');
       if (user) {
         setUsuarioActual(JSON.parse(user));
       }
@@ -29,10 +29,10 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/comentarios/${postId}/comentar/`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ contenido: comentario }),
         }
@@ -41,10 +41,10 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
       if (response.ok) {
         const nuevoComentario = await response.json();
         setComentarios([...comentarios, nuevoComentario]);
-        setComentario("");
+        setComentario('');
       }
     } catch (error) {
-      console.error("❌ Error comentando:", error);
+      console.error('❌ Error comentando:', error);
     }
   };
 
@@ -75,8 +75,8 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
               {/* Avatar */}
               <div className="flex-shrink-0">
                 <img
-                  src={c.usuario?.foto_perfil_url || "/img/default-profile.png"}
-                  alt={c.usuario?.nombre || "Usuario"}
+                  src={c.usuario?.foto_perfil_url || '/img/default-profile.png'}
+                  alt={c.usuario?.nombre || 'Usuario'}
                   className="w-8 h-8 rounded-full object-cover"
                 />
               </div>
@@ -101,7 +101,7 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
           onClick={() => setMostrarTodos(!mostrarTodos)}
           className="mt-2 text-sm text-blue-600 dark:text-blue-400 hover:underline"
         >
-          {mostrarTodos ? "Ver menos comentarios" : "Ver más comentarios"}
+          {mostrarTodos ? 'Ver menos comentarios' : 'Ver más comentarios'}
         </button>
       )}
 
@@ -110,8 +110,8 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
         {/* Avatar del usuario actual */}
         <div className="flex-shrink-0">
           <img
-            src={usuarioActual?.foto_perfil_url || "/img/default-profile.png"}
-            alt={usuarioActual?.nombre || "Tú"}
+            src={usuarioActual?.foto_perfil_url || '/img/default-profile.png'}
+            alt={usuarioActual?.nombre || 'Tú'}
             className="w-8 h-8 rounded-full object-cover"
           />
         </div>
@@ -138,10 +138,3 @@ const Comentarios = ({ postId, comentariosIniciales }) => {
 };
 
 export default Comentarios;
-
-
-
-
-
-
-

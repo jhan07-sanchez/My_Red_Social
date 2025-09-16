@@ -1,12 +1,12 @@
-import { useState, useContext } from "react";
-import { AuthContext } from "../../context/AuthContext";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import { Camera, X, FileImage, Smile, Hash, AtSign } from "lucide-react";
+import { useState, useContext } from 'react';
+import { AuthContext } from '../../context/AuthContext';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import { Camera, X, FileImage, Smile, Hash, AtSign } from 'lucide-react';
 
 const NuevoPost = ({ onPostCreado }) => {
   const { token } = useContext(AuthContext);
-  const [contenido, setContenido] = useState("");
+  const [contenido, setContenido] = useState('');
   const [imagen, setImagen] = useState(null);
   const [previewUrl, setPreviewUrl] = useState(null);
   const [cargando, setCargando] = useState(false);
@@ -17,7 +17,13 @@ const NuevoPost = ({ onPostCreado }) => {
     if (!file) return;
 
     // Validar tipo de archivo
-    const tiposPermitidos = ['image/jpeg', 'image/jpg', 'image/png', 'image/webp', 'image/gif'];
+    const tiposPermitidos = [
+      'image/jpeg',
+      'image/jpg',
+      'image/png',
+      'image/webp',
+      'image/gif',
+    ];
     if (!tiposPermitidos.includes(file.type)) {
       setError('Solo se permiten archivos de imagen (JPEG, PNG, WebP, GIF)');
       return;
@@ -48,38 +54,38 @@ const NuevoPost = ({ onPostCreado }) => {
     setError(null);
 
     if (!contenido.trim() && !imagen) {
-      setError("Escribe algo o añade una imagen.");
+      setError('Escribe algo o añade una imagen.');
       return;
     }
 
     if (!token) {
-      setError("Tu sesión ha expirado. Por favor inicia sesión de nuevo.");
+      setError('Tu sesión ha expirado. Por favor inicia sesión de nuevo.');
       return;
     }
 
     const formData = new FormData();
-    formData.append("contenido", contenido);
-    
+    formData.append('contenido', contenido);
+
     if (imagen) {
       // Generar nombre único para la imagen
-      const extension = imagen.name.split(".").pop().toLowerCase();
+      const extension = imagen.name.split('.').pop().toLowerCase();
       const timestamp = Date.now();
       const nuevoNombre = `${timestamp}.${extension}`;
-      
+
       const archivoRenombrado = new File([imagen], nuevoNombre, {
         type: imagen.type,
       });
-      formData.append("imagen", archivoRenombrado);
+      formData.append('imagen', archivoRenombrado);
     }
 
     setCargando(true);
     try {
       console.log('🚀 Enviando publicación...');
-      
+
       const respuesta = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/publicaciones/`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -89,25 +95,24 @@ const NuevoPost = ({ onPostCreado }) => {
 
       if (!respuesta.ok) {
         const errorText = await respuesta.text();
-        console.error("❌ Error al publicar:", respuesta.status, errorText);
+        console.error('❌ Error al publicar:', respuesta.status, errorText);
         throw new Error(`Error ${respuesta.status}: ${errorText}`);
       }
 
       const nuevoPost = await respuesta.json();
-      console.log("✅ Post creado:", nuevoPost);
-      
+      console.log('✅ Post creado:', nuevoPost);
+
       // Limpiar formulario
-      setContenido("");
+      setContenido('');
       setImagen(null);
       setPreviewUrl(null);
       setError(null);
-      
+
       // Notificar al componente padre
       onPostCreado(nuevoPost);
-      
     } catch (error) {
-      console.error("❌ Error:", error);
-      setError(error.message || "Error al crear la publicación");
+      console.error('❌ Error:', error);
+      setError(error.message || 'Error al crear la publicación');
     } finally {
       setCargando(false);
     }
@@ -119,7 +124,7 @@ const NuevoPost = ({ onPostCreado }) => {
       className="relative"
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
+      transition={{ duration: 0.4, ease: 'easeOut' }}
     >
       {/* Campo de texto */}
       <div className="relative">
@@ -132,7 +137,7 @@ const NuevoPost = ({ onPostCreado }) => {
           disabled={cargando}
           maxLength={500}
         />
-        
+
         {/* Contador de caracteres */}
         <div className="absolute bottom-3 right-3 text-xs text-gray-400 dark:text-gray-500">
           {contenido.length}/500
@@ -144,7 +149,7 @@ const NuevoPost = ({ onPostCreado }) => {
         {previewUrl && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
+            animate={{ opacity: 1, height: 'auto' }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.3 }}
             className="mt-4 relative"
@@ -158,10 +163,10 @@ const NuevoPost = ({ onPostCreado }) => {
                   className="object-cover"
                   style={{
                     objectFit: 'cover',
-                    objectPosition: 'center'
+                    objectPosition: 'center',
                   }}
                 />
-                
+
                 {/* Botón eliminar imagen */}
                 <motion.button
                   type="button"
@@ -205,7 +210,7 @@ const NuevoPost = ({ onPostCreado }) => {
             className="hidden"
             disabled={cargando}
           />
-          
+
           {/* Botón de imagen */}
           <motion.label
             htmlFor="image-upload"
@@ -253,13 +258,13 @@ const NuevoPost = ({ onPostCreado }) => {
             <span className="flex items-center gap-2">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                 className="w-4 h-4 border-2 border-white border-t-transparent rounded-full"
               />
               Publicando...
             </span>
           ) : (
-            "Publicar"
+            'Publicar'
           )}
         </motion.button>
       </div>
@@ -276,7 +281,7 @@ const NuevoPost = ({ onPostCreado }) => {
             <div className="flex flex-col items-center gap-3">
               <motion.div
                 animate={{ rotate: 360 }}
-                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
+                transition={{ duration: 1, repeat: Infinity, ease: 'linear' }}
                 className="w-8 h-8 border-3 border-blue-200 dark:border-gray-600 border-t-blue-500 dark:border-t-blue-400 rounded-full"
               />
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300">

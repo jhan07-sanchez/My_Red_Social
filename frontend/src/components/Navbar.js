@@ -1,46 +1,49 @@
-import Link from "next/link";
-import LogoutButton from "./LogoutButton";
-import { useEffect, useState, useContext } from "react";
-import { 
-  Bell, 
-  Menu, 
-  X, 
-  Search, 
-  Home, 
-  Users, 
-  MessageCircle, 
+import Link from 'next/link';
+import LogoutButton from './LogoutButton';
+import { useEffect, useState, useContext } from 'react';
+import {
+  Bell,
+  Menu,
+  X,
+  Search,
+  Home,
+  Users,
+  MessageCircle,
   User,
   Settings,
-  ChevronDown
-} from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ThemeContext } from "../../context/ThemeContext";
+  ChevronDown,
+} from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { ThemeContext } from '../../context/ThemeContext';
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
+  const [searchQuery, setSearchQuery] = useState('');
   const [notifications, setNotifications] = useState(3); // Ejemplo de notificaciones
   const { isDark, toggleTheme } = useContext(ThemeContext);
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const fetchUser = async () => {
       try {
-        const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        });
+        const response = await fetch(
+          `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/me/`,
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
 
         if (response.ok) {
           const data = await response.json();
           setUser(data);
         }
       } catch (error) {
-        console.error("Error al obtener el usuario:", error);
+        console.error('Error al obtener el usuario:', error);
       }
     };
 
@@ -64,7 +67,7 @@ const Navbar = () => {
     e.preventDefault();
     if (searchQuery.trim()) {
       // Implementar lógica de búsqueda
-      console.log("Buscando:", searchQuery);
+      console.log('Buscando:', searchQuery);
       // Aquí puedes redirigir a página de resultados
       // router.push(`/buscar?q=${searchQuery}`);
     }
@@ -73,7 +76,7 @@ const Navbar = () => {
   const menuVariants = {
     hidden: { opacity: 0, y: -20 },
     visible: { opacity: 1, y: 0 },
-    exit: { opacity: 0, y: -20 }
+    exit: { opacity: 0, y: -20 },
   };
 
   return (
@@ -86,7 +89,7 @@ const Navbar = () => {
       >
         {/* Logo */}
         <Link href="/">
-          <motion.span 
+          <motion.span
             whileHover={{ scale: 1.05 }}
             className="text-white text-xl sm:text-2xl font-bold cursor-pointer"
           >
@@ -110,22 +113,20 @@ const Navbar = () => {
 
         {/* Iconos de navegación - Desktop */}
         <div className="hidden md:flex items-center space-x-4">
-          
           {/* Home */}
           <Link href="/">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
             >
               <Home className="w-6 h-6 text-white dark:text-gray-200" />
-
             </motion.div>
           </Link>
 
           {/* Amigos */}
           <Link href="/amigos">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
@@ -136,7 +137,7 @@ const Navbar = () => {
 
           {/* Mensajes */}
           <Link href="/mensajes">
-            <motion.div 
+            <motion.div
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.95 }}
               className="relative p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
@@ -149,14 +150,14 @@ const Navbar = () => {
           </Link>
 
           {/* Notificaciones */}
-          <motion.div 
+          <motion.div
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.95 }}
             className="relative p-2 rounded-full hover:bg-white/10 transition-colors cursor-pointer"
           >
             <Bell className="w-6 h-6 text-white dark:text-gray-200" />
             {notifications > 0 && (
-              <motion.span 
+              <motion.span
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
                 className="absolute -top-1 -right-1 bg-red-500 text-xs rounded-full px-1.5 py-0.5 text-white font-medium"
@@ -176,7 +177,7 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="px-3 py-1.5 bg-white/10 hover:bg-white/20 rounded-full text-sm font-medium transition-colors"
           >
-            {isDark ? "☀️" : "🌙"}
+            {isDark ? '☀️' : '🌙'}
           </motion.button>
 
           {/* Perfil con dropdown */}
@@ -188,10 +189,10 @@ const Navbar = () => {
                 className="flex items-center space-x-2 p-1 rounded-full hover:bg-white/10 transition-colors"
               >
                 <img
-                  src={user.foto_perfil_url || "/img/default-profile.png"}
+                  src={user.foto_perfil_url || '/img/default-profile.png'}
                   alt="Foto de perfil"
                   className="rounded-full object-cover border-2 border-white/50"
-                  style={{ width: "32px", height: "32px" }}
+                  style={{ width: '32px', height: '32px' }}
                 />
                 <ChevronDown className="w-4 h-4" />
               </motion.button>
@@ -214,23 +215,23 @@ const Navbar = () => {
                         {user.email}
                       </p>
                     </div>
-                    
+
                     <Link href="/perfil">
                       <div className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                         <User className="w-4 h-4 mr-3" />
                         Ver perfil
                       </div>
                     </Link>
-                    
+
                     <Link href="/configuracion">
                       <div className="flex items-center px-4 py-2 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer">
                         <Settings className="w-4 h-4 mr-3" />
                         Configuración
                       </div>
                     </Link>
-                    
+
                     <hr className="my-2 border-gray-200 dark:border-gray-700" />
-                    
+
                     <div className="px-4 py-2">
                       <LogoutButton />
                     </div>
@@ -261,7 +262,11 @@ const Navbar = () => {
             whileTap={{ scale: 0.95 }}
             className="p-2 rounded-lg hover:bg-white/10"
           >
-            {showMenu ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            {showMenu ? (
+              <X className="w-6 h-6" />
+            ) : (
+              <Menu className="w-6 h-6" />
+            )}
           </motion.button>
         </div>
       </motion.nav>
@@ -299,31 +304,33 @@ const Navbar = () => {
                   Inicio
                 </div>
               </Link>
-              
+
               <Link href="/perfil">
                 <div className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                   <User className="w-5 h-5 mr-3" />
                   Mi Perfil
                 </div>
               </Link>
-              
+
               <Link href="/amigos">
                 <div className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                   <Users className="w-5 h-5 mr-3" />
                   Amigos
                 </div>
               </Link>
-              
+
               <Link href="/mensajes">
                 <div className="flex items-center justify-between px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                   <div className="flex items-center">
                     <MessageCircle className="w-5 h-5 mr-3" />
                     Mensajes
                   </div>
-                  <span className="bg-green-500 text-white text-xs rounded-full px-2 py-1">2</span>
+                  <span className="bg-green-500 text-white text-xs rounded-full px-2 py-1">
+                    2
+                  </span>
                 </div>
               </Link>
-              
+
               <Link href="/configuracion">
                 <div className="flex items-center px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700">
                   <Settings className="w-5 h-5 mr-3" />
@@ -336,8 +343,8 @@ const Navbar = () => {
                 onClick={toggleTheme}
                 className="flex items-center w-full px-4 py-3 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700"
               >
-                <span className="mr-3 text-lg">{isDark ? "☀️" : "🌙"}</span>
-                {isDark ? "Modo Claro" : "Modo Oscuro"}
+                <span className="mr-3 text-lg">{isDark ? '☀️' : '🌙'}</span>
+                {isDark ? 'Modo Claro' : 'Modo Oscuro'}
               </button>
 
               {/* Usuario info móvil */}
@@ -345,10 +352,10 @@ const Navbar = () => {
                 <div className="border-t border-gray-200 dark:border-gray-700 mt-2 pt-4 px-4">
                   <div className="flex items-center space-x-3 mb-3">
                     <img
-                      src={user.foto_perfil_url || "/img/default-profile.png"}
+                      src={user.foto_perfil_url || '/img/default-profile.png'}
                       alt="Foto de perfil"
                       className="rounded-full object-cover"
-                      style={{ width: "40px", height: "40px" }}
+                      style={{ width: '40px', height: '40px' }}
                     />
                     <div>
                       <p className="font-medium text-gray-900 dark:text-white">

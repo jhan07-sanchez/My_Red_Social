@@ -1,5 +1,5 @@
-"use client";
-import { useState } from "react";
+'use client';
+import { useState } from 'react';
 import {
   Home,
   User,
@@ -10,18 +10,18 @@ import {
   LogOut,
   Menu,
   X,
-} from "lucide-react";
+} from 'lucide-react';
 
 const Sidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { name: "Inicio", icon: <Home className="w-5 h-5" /> },
-    { name: "Perfil", icon: <User className="w-5 h-5" /> },
-    { name: "Amigos", icon: <Users className="w-5 h-5" /> },
-    { name: "Mensajes", icon: <MessageSquare className="w-5 h-5" /> },
-    { name: "Notificaciones", icon: <Bell className="w-5 h-5" /> },
-    { name: "Configuración", icon: <Settings className="w-5 h-5" /> },
+    { name: 'Inicio', icon: <Home className="w-5 h-5" /> },
+    { name: 'Perfil', icon: <User className="w-5 h-5" /> },
+    { name: 'Amigos', icon: <Users className="w-5 h-5" /> },
+    { name: 'Mensajes', icon: <MessageSquare className="w-5 h-5" /> },
+    { name: 'Notificaciones', icon: <Bell className="w-5 h-5" /> },
+    { name: 'Configuración', icon: <Settings className="w-5 h-5" /> },
   ];
 
   return (
@@ -49,7 +49,7 @@ const Sidebar = () => {
            border-r border-gray-200 dark:border-gray-700 shadow-2xl z-50
            mt-4 ml-4 rounded-2xl backdrop-blur-xl overflow-hidden
            transition-transform duration-300 ease-in-out
-           ${open ? "block translate-x-0" : "hidden"} md:block md:translate-x-0
+           ${open ? 'block translate-x-0' : 'hidden'} md:block md:translate-x-0
          `}
       >
         {/* Header */}
@@ -91,5 +91,3 @@ const Sidebar = () => {
 };
 
 export default Sidebar;
-
-

@@ -6,9 +6,13 @@ const AddFriendButton = ({ username }) => {
 
   const handleFriendRequest = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/add-friend/${username}/`, {}, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/add-friend/${username}/`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.message === 'Solicitud de amistad enviada y aceptada') {
         setIsFriend(true);

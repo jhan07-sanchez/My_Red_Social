@@ -7,5 +7,8 @@ export const registerUser = (email, password) => {
 };
 
 export const verifyUser = (email, verificationCode) => {
-  return axios.post(`${API_URL}verificar/`, { email, verification_code: verificationCode });
+  return axios.post(`${API_URL}verificar/`, {
+    email,
+    verification_code: verificationCode,
+  });
 };

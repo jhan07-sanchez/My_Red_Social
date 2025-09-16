@@ -1,11 +1,11 @@
-"use client";
-import { useEffect, useState, useContext } from "react";
-import { useRouter } from "next/router";
-import Sidebar from "../components/Sidebar";
-import Feed from "../components/Feed";
-import FriendsList from "../components/FriendsList";
-import { AuthContext } from "../../context/AuthContext";
-import { motion } from "framer-motion";
+'use client';
+import { useEffect, useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import Sidebar from '../components/Sidebar';
+import Feed from '../components/Feed';
+import FriendsList from '../components/FriendsList';
+import { AuthContext } from '../../context/AuthContext';
+import { motion } from 'framer-motion';
 
 const IndexPage = () => {
   const [mostrarBienvenida, setMostrarBienvenida] = useState(false);
@@ -14,19 +14,19 @@ const IndexPage = () => {
   const { token, logout, updateUser, loadingAuth } = useContext(AuthContext);
 
   useEffect(() => {
-    if (typeof window === "undefined") return;
+    if (typeof window === 'undefined') return;
 
     if (loadingAuth) return;
 
     if (!token) {
-      console.warn("❌ Token no encontrado, redirigiendo al login...");
-      router.push("/login");
+      console.warn('❌ Token no encontrado, redirigiendo al login...');
+      router.push('/login');
       return;
     }
 
-    if (!localStorage.getItem("visto_bienvenida")) {
+    if (!localStorage.getItem('visto_bienvenida')) {
       setMostrarBienvenida(true);
-      localStorage.setItem("visto_bienvenida", "true");
+      localStorage.setItem('visto_bienvenida', 'true');
     }
 
     const fetchUserData = async () => {
@@ -36,22 +36,22 @@ const IndexPage = () => {
           {
             headers: {
               Authorization: `Bearer ${token}`,
-              "Content-Type": "application/json",
+              'Content-Type': 'application/json',
             },
-            credentials: "include",
+            credentials: 'include',
           }
         );
 
-        if (!response.ok) throw new Error("Token inválido o expirado");
+        if (!response.ok) throw new Error('Token inválido o expirado');
 
         const data = await response.json();
-        console.log("✅ Datos completos del usuario:", data);
+        console.log('✅ Datos completos del usuario:', data);
 
         updateUser(data);
       } catch (err) {
-        console.error("❌ Error al obtener datos del usuario:", err);
+        console.error('❌ Error al obtener datos del usuario:', err);
         logout();
-        router.push("/login");
+        router.push('/login');
       } finally {
         setLoading(false);
       }
@@ -73,7 +73,6 @@ const IndexPage = () => {
     <div className="min-h-screen bg-neutral-light dark:bg-neutral-dark text-gray-900 dark:text-white">
       {/* GRID principal */}
       <div className="grid grid-cols-1 md:grid-cols-4 lg:grid-cols-6 gap-6 mt-20 px-4 w-full lg:max-w-7xl lg:mx-auto">
-               
         {/* Sidebar izquierdo */}
         <aside className="hidden md:block md:col-span-1">
           <Sidebar />
@@ -92,7 +91,8 @@ const IndexPage = () => {
                 🎉 Bienvenido a tu página de inicio
               </h1>
               <p className="text-base text-gray-600 dark:text-gray-300">
-                Aquí puedes ver las publicaciones, interactuar con tus amigos y mucho más.
+                Aquí puedes ver las publicaciones, interactuar con tus amigos y
+                mucho más.
               </p>
             </motion.div>
           )}
@@ -113,5 +113,3 @@ const IndexPage = () => {
 };
 
 export default IndexPage;
-
-

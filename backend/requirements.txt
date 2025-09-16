@@ -4,6 +4,3 @@ djangorestframework-simplejwt
 psycopg2-binary
 Pillow
 django-cors-headers
-django-environ
-django-extensions
-black

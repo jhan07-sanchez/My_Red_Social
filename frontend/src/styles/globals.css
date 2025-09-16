@@ -59,7 +59,8 @@ a {
 }
 
 /* Elimina fondo blanco en inputs al escribir o autofill */
-input, textarea {
+input,
+textarea {
   background-color: transparent !important;
   color: #fff !important;
 }
@@ -75,4 +76,3 @@ textarea:-webkit-autofill:focus {
   -webkit-text-fill-color: #fff !important;
   transition: background-color 9999s ease-in-out 0s !important;
 }
-

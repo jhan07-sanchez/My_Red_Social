@@ -6,9 +6,13 @@ const FollowButton = ({ username }) => {
 
   const handleFollow = async () => {
     try {
-      const response = await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/follow/${username}/`, {}, {
-        withCredentials: true,
-      });
+      const response = await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/follow/${username}/`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
 
       if (response.data.message === 'Followed') {
         setIsFollowing(true);

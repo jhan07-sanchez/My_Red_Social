@@ -21,10 +21,12 @@ const ChatComponent = ({ roomName, username }) => {
 
   const sendMessage = () => {
     if (socket && message.trim() !== '') {
-      socket.send(JSON.stringify({
-        'message': message,
-        'username': username
-      }));
+      socket.send(
+        JSON.stringify({
+          message: message,
+          username: username,
+        })
+      );
       setMessage('');
     }
   };
@@ -34,7 +36,9 @@ const ChatComponent = ({ roomName, username }) => {
       <h2>Chat: {roomName}</h2>
       <div>
         {messages.map((msg, index) => (
-          <p key={index}><strong>{msg.username}:</strong> {msg.message}</p>
+          <p key={index}>
+            <strong>{msg.username}:</strong> {msg.message}
+          </p>
         ))}
       </div>
       <input

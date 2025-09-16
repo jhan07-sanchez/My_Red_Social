@@ -1,49 +1,54 @@
-import { useState } from "react";
-import axios from "axios";
-import { motion, AnimatePresence } from "framer-motion";
-import { Mail, Lock, User, KeyRound, Loader2, Eye, EyeOff } from "lucide-react";
+import { useState } from 'react';
+import axios from 'axios';
+import { motion, AnimatePresence } from 'framer-motion';
+import { Mail, Lock, User, KeyRound, Loader2, Eye, EyeOff } from 'lucide-react';
 
 const inputBase =
-  "w-full px-4 py-3 mb-4 rounded-xl bg-white/60 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all placeholder-gray-500 dark:placeholder-gray-400 text-gray-800 dark:text-gray-100 shadow-sm backdrop-blur";
+  'w-full px-4 py-3 mb-4 rounded-xl bg-white/60 dark:bg-gray-900/60 border border-gray-200 dark:border-gray-700 focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-blue-400 transition-all placeholder-gray-500 dark:placeholder-gray-400 text-gray-800 dark:text-gray-100 shadow-sm backdrop-blur';
 
 const RegisterForm = () => {
-  const [nombre, setNombre] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
+  const [nombre, setNombre] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [verificationCode, setVerificationCode] = useState("");
+  const [verificationCode, setVerificationCode] = useState('');
   const [step, setStep] = useState(1);
   const [loading, setLoading] = useState(false);
   const [otpLoading, setOtpLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState('');
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    setErrorMessage("");
+    setErrorMessage('');
     if (password !== confirmPassword) {
-      setErrorMessage("Las contraseñas no coinciden");
+      setErrorMessage('Las contraseñas no coinciden');
       return;
     }
     setLoading(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/registro/`, {
-        nombre,
-        email,
-        password,
-        password2: confirmPassword,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/registro/`,
+        {
+          nombre,
+          email,
+          password,
+          password2: confirmPassword,
+        }
+      );
       setStep(2);
     } catch (error) {
       const errores = error.response?.data;
       if (errores) {
         const mensajes = Object.entries(errores)
           .map(([campo, mensajes]) => {
-            const texto = Array.isArray(mensajes) ? mensajes.join(", ") : mensajes;
+            const texto = Array.isArray(mensajes)
+              ? mensajes.join(', ')
+              : mensajes;
             return `${campo}: ${texto}`;
           })
-          .join("\n");
+          .join('\n');
         setErrorMessage(mensajes);
       }
     } finally {
@@ -55,13 +60,16 @@ const RegisterForm = () => {
     e.preventDefault();
     setOtpLoading(true);
     try {
-      await axios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/verificar-otp/`, {
-        email,
-        otp: verificationCode,
-      });
+      await axios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/verificar-otp/`,
+        {
+          email,
+          otp: verificationCode,
+        }
+      );
       setStep(3);
     } catch (error) {
-      setErrorMessage("Código incorrecto o expirado");
+      setErrorMessage('Código incorrecto o expirado');
     } finally {
       setOtpLoading(false);
     }
@@ -72,7 +80,7 @@ const RegisterForm = () => {
       <motion.div
         initial={{ opacity: 0, y: 40, scale: 0.98 }}
         animate={{ opacity: 1, y: 0, scale: 1 }}
-        transition={{ duration: 0.5, type: "spring" }}
+        transition={{ duration: 0.5, type: 'spring' }}
         className="relative w-full max-w-md p-8 rounded-3xl bg-white/80 dark:bg-gray-900/80 shadow-2xl dark:shadow-black/40 backdrop-blur-xl border border-gray-200 dark:border-gray-800"
       >
         <AnimatePresence mode="wait">
@@ -125,7 +133,7 @@ const RegisterForm = () => {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400" />
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   placeholder="Contraseña"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
@@ -137,16 +145,22 @@ const RegisterForm = () => {
                   tabIndex={-1}
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-600 transition-colors"
-                  aria-label={showPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-label={
+                    showPassword ? 'Ocultar contraseña' : 'Mostrar contraseña'
+                  }
                 >
-                  {showPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               {/* Confirm Password */}
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 text-blue-400" />
                 <input
-                  type={showConfirmPassword ? "text" : "password"}
+                  type={showConfirmPassword ? 'text' : 'password'}
                   placeholder="Confirmar contraseña"
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
@@ -158,9 +172,17 @@ const RegisterForm = () => {
                   tabIndex={-1}
                   onClick={() => setShowConfirmPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-blue-400 hover:text-blue-600 transition-colors"
-                  aria-label={showConfirmPassword ? "Ocultar contraseña" : "Mostrar contraseña"}
+                  aria-label={
+                    showConfirmPassword
+                      ? 'Ocultar contraseña'
+                      : 'Mostrar contraseña'
+                  }
                 >
-                  {showConfirmPassword ? <EyeOff className="w-5 h-5" /> : <Eye className="w-5 h-5" />}
+                  {showConfirmPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
                 </button>
               </div>
               <button
@@ -173,7 +195,7 @@ const RegisterForm = () => {
                     <Loader2 className="animate-spin w-5 h-5" /> Registrando...
                   </span>
                 ) : (
-                  "Registrarse"
+                  'Registrarse'
                 )}
               </button>
             </motion.form>
@@ -194,7 +216,8 @@ const RegisterForm = () => {
                 Verifica tu correo
               </h2>
               <p className="text-gray-500 dark:text-gray-400 text-center mb-4 text-sm">
-                Ingresa el código que enviamos a <span className="font-semibold">{email}</span>
+                Ingresa el código que enviamos a{' '}
+                <span className="font-semibold">{email}</span>
               </p>
               {errorMessage && (
                 <motion.div
@@ -228,7 +251,7 @@ const RegisterForm = () => {
                     <Loader2 className="animate-spin w-5 h-5" /> Verificando...
                   </span>
                 ) : (
-                  "Verificar cuenta"
+                  'Verificar cuenta'
                 )}
               </button>
             </motion.form>
@@ -244,13 +267,26 @@ const RegisterForm = () => {
               className="flex flex-col items-center justify-center"
             >
               <div className="w-16 h-16 rounded-full bg-gradient-to-br from-green-400 to-blue-500 flex items-center justify-center mb-6 shadow-lg">
-                <svg className="w-10 h-10 text-white" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+                <svg
+                  className="w-10 h-10 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M5 13l4 4L19 7"
+                  />
                 </svg>
               </div>
-              <h2 className="text-2xl font-bold text-center mb-2 text-green-600 dark:text-green-400">¡Cuenta verificada!</h2>
+              <h2 className="text-2xl font-bold text-center mb-2 text-green-600 dark:text-green-400">
+                ¡Cuenta verificada!
+              </h2>
               <p className="text-gray-600 dark:text-gray-300 text-center mb-4">
-                Tu cuenta ha sido verificada correctamente. Ahora puedes iniciar sesión.
+                Tu cuenta ha sido verificada correctamente. Ahora puedes iniciar
+                sesión.
               </p>
               {/* Aquí podrías poner un botón para ir al login */}
             </motion.div>

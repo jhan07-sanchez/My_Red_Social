@@ -4,4 +4,3 @@ __pycache__/
 *.log
 .next/cache/
 .next/static/
-.env

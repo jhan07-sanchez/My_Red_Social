@@ -1,13 +1,13 @@
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 
 const tipoAReaccion = {
-  like: "👍",
-  love: "❤️",
-  haha: "😂",
-  wow: "😮",
-  sad: "😢",
-  angry: "😡",
+  like: '👍',
+  love: '❤️',
+  haha: '😂',
+  wow: '😮',
+  sad: '😢',
+  angry: '😡',
 };
 
 const Reacciones = ({ postId, reaccionesIniciales }) => {
@@ -15,17 +15,17 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
   const [mostrarModal, setMostrarModal] = useState(false);
   const [tipoSeleccionado, setTipoSeleccionado] = useState(null);
 
-  const token = localStorage.getItem("token");
+  const token = localStorage.getItem('token');
 
   const handleReaccionar = async (tipo) => {
     try {
       const response = await fetch(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/publicaciones/publicaciones/${postId}/reaccionar/`,
         {
-          method: "POST",
+          method: 'POST',
           headers: {
             Authorization: `Bearer ${token}`,
-            "Content-Type": "application/json",
+            'Content-Type': 'application/json',
           },
           body: JSON.stringify({ tipo }),
         }
@@ -36,7 +36,7 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
         setReacciones([...reacciones, nuevaReaccion]);
       }
     } catch (error) {
-      console.error("Error reaccionando:", error);
+      console.error('Error reaccionando:', error);
     }
   };
 
@@ -89,8 +89,8 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
                 <button
                   className={`px-2 py-1 rounded ${
                     tipoSeleccionado === null
-                      ? "bg-blue-500 text-white"
-                      : "bg-gray-200"
+                      ? 'bg-blue-500 text-white'
+                      : 'bg-gray-200'
                   }`}
                   onClick={() => setTipoSeleccionado(null)}
                 >
@@ -101,8 +101,8 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
                     key={tipo}
                     className={`px-2 py-1 rounded ${
                       tipoSeleccionado === tipo
-                        ? "bg-blue-500 text-white"
-                        : "bg-gray-200"
+                        ? 'bg-blue-500 text-white'
+                        : 'bg-gray-200'
                     }`}
                     onClick={() => setTipoSeleccionado(tipo)}
                   >
@@ -118,8 +118,7 @@ const Reacciones = ({ postId, reaccionesIniciales }) => {
                   >
                     <img
                       src={
-                        r.usuario?.foto_perfil_url ||
-                        "/img/default-profile.png"
+                        r.usuario?.foto_perfil_url || '/img/default-profile.png'
                       }
                       className="w-8 h-8 rounded-full"
                       alt="avatar"

@@ -1,39 +1,42 @@
-import { useState } from "react";
-import axios from "axios";
+import { useState } from 'react';
+import axios from 'axios';
 
-export default function UsuarioPerfilCard({ user,setUser, onLogout }) {
+export default function UsuarioPerfilCard({ user, setUser, onLogout }) {
   const [modoEdicion, setModoEdicion] = useState(false);
   const [nombre, setNombre] = useState(user.nombre);
-  const [biografia, setBiografia] = useState(user.biografia || "");
+  const [biografia, setBiografia] = useState(user.biografia || '');
   const [fotoPerfil, setFotoPerfil] = useState(null);
-  const [mensaje, setMensaje] = useState("");
+  const [mensaje, setMensaje] = useState('');
 
   const handleGuardar = async () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem('token');
 
     const formData = new FormData();
-    formData.append("nombre", nombre);
-    formData.append("biografia", biografia);
+    formData.append('nombre', nombre);
+    formData.append('biografia', biografia);
     if (fotoPerfil) {
-      formData.append("foto_perfil", fotoPerfil);
+      formData.append('foto_perfil', fotoPerfil);
     }
 
     try {
-      const res = await axios.patch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/editar/`, formData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-          
-        },
-      });
+      const res = await axios.patch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/editar/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       if (res.status === 200) {
-        setMensaje("Perfil actualizado correctamente");
+        setMensaje('Perfil actualizado correctamente');
         setModoEdicion(false);
         setUser(res.data); // O puedes actualizar el estado desde el padre
       }
     } catch (err) {
-        console.error("Error al actualizar:", err.response?.data || err.message);
-      setMensaje("Error al actualizar perfil");
+      console.error('Error al actualizar:', err.response?.data || err.message);
+      setMensaje('Error al actualizar perfil');
     }
   };
 
@@ -44,20 +47,21 @@ export default function UsuarioPerfilCard({ user,setUser, onLogout }) {
       {!modoEdicion ? (
         <div className="space-y-4">
           <div className="flex items-center space-x-4">
-
-          {user && (
-            <img
-            src={user.foto_perfil_url}
-            alt="Foto de perfil"
-            className="rounded-full object-cover border-2 border-white shadow-sm"
-            style={{ width: "36px", height: "36px" }}
-            />
-          )}    
+            {user && (
+              <img
+                src={user.foto_perfil_url}
+                alt="Foto de perfil"
+                className="rounded-full object-cover border-2 border-white shadow-sm"
+                style={{ width: '36px', height: '36px' }}
+              />
+            )}
 
             <div>
               <p className="text-lg font-semibold">{user.nombre}</p>
               <p className="text-gray-500">{user.email}</p>
-              <p className="text-sm text-gray-600 mt-2">{user.biografia || "Sin biografía"}</p>
+              <p className="text-sm text-gray-600 mt-2">
+                {user.biografia || 'Sin biografía'}
+              </p>
             </div>
           </div>
 
@@ -118,5 +122,3 @@ export default function UsuarioPerfilCard({ user,setUser, onLogout }) {
     </div>
   );
 }
-
-  

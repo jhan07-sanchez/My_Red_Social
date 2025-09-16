@@ -29,12 +29,14 @@ export default function App({ Component, pageProps }) {
     };
   }, [router]);
 
-  const getLayout = Component.getLayout || ((page) => {
-    if (hiddenNavbarRoutes.includes(router.pathname)) {
-      return page;
-    }
-    return <Layout>{page}</Layout>;
-  });
+  const getLayout =
+    Component.getLayout ||
+    ((page) => {
+      if (hiddenNavbarRoutes.includes(router.pathname)) {
+        return page;
+      }
+      return <Layout>{page}</Layout>;
+    });
 
   return (
     <>
@@ -48,13 +50,8 @@ export default function App({ Component, pageProps }) {
 
       {/* 🌙 Providers globales */}
       <AuthProvider>
-        <ThemeProvider>
-          {getLayout(<Component {...pageProps} />)}
-        </ThemeProvider>
+        <ThemeProvider>{getLayout(<Component {...pageProps} />)}</ThemeProvider>
       </AuthProvider>
     </>
   );
 }
-
-
-

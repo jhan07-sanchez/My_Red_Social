@@ -6,63 +6,63 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ("usuarios", "0006_friendship_friendrequest"),
+        ('usuarios', '0006_friendship_friendrequest'),
     ]
 
     operations = [
         migrations.AlterUniqueTogether(
-            name="friendrequest",
+            name='friendrequest',
             unique_together=None,
         ),
         migrations.RemoveField(
-            model_name="friendrequest",
-            name="from_user",
+            model_name='friendrequest',
+            name='from_user',
         ),
         migrations.RemoveField(
-            model_name="friendrequest",
-            name="to_user",
+            model_name='friendrequest',
+            name='to_user',
         ),
         migrations.RemoveField(
-            model_name="friendship",
-            name="friend",
+            model_name='friendship',
+            name='friend',
         ),
         migrations.RemoveField(
-            model_name="friendship",
-            name="user",
+            model_name='friendship',
+            name='user',
         ),
         migrations.RemoveField(
-            model_name="message",
-            name="receiver",
+            model_name='message',
+            name='receiver',
         ),
         migrations.RemoveField(
-            model_name="message",
-            name="sender",
+            model_name='message',
+            name='sender',
         ),
         migrations.RemoveField(
-            model_name="userprofile",
-            name="followers",
+            model_name='userprofile',
+            name='followers',
         ),
         migrations.RemoveField(
-            model_name="userprofile",
-            name="friends",
+            model_name='userprofile',
+            name='friends',
         ),
         migrations.RemoveField(
-            model_name="userprofile",
-            name="user",
+            model_name='userprofile',
+            name='user',
         ),
         migrations.DeleteModel(
-            name="Amistad",
+            name='Amistad',
         ),
         migrations.DeleteModel(
-            name="FriendRequest",
+            name='FriendRequest',
         ),
         migrations.DeleteModel(
-            name="Friendship",
+            name='Friendship',
         ),
         migrations.DeleteModel(
-            name="Message",
+            name='Message',
         ),
         migrations.DeleteModel(
-            name="UserProfile",
+            name='UserProfile',
         ),
     ]

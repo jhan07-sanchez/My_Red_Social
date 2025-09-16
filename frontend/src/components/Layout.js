@@ -1,7 +1,7 @@
-"use client";
-import Navbar from "./Navbar";
-import Sidebar from "./Sidebar";
-import FriendsList from "./FriendsList";
+'use client';
+import Navbar from './Navbar';
+import Sidebar from './Sidebar';
+import FriendsList from './FriendsList';
 
 const Layout = ({ children }) => (
   <div className="bg-neutral-light dark:bg-neutral-dark min-h-screen">
@@ -17,11 +17,3 @@ const Layout = ({ children }) => (
 );
 
 export default Layout;
-
-
-
-
-
-
-
-

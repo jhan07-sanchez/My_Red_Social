@@ -1,7 +1,7 @@
-import { useState } from "react";
-import ReactMarkdown from "react-markdown";
-import Comentarios from "./Comentarios";
-import Reacciones from "./Reacciones";
+import { useState } from 'react';
+import ReactMarkdown from 'react-markdown';
+import Comentarios from './Comentarios';
+import Reacciones from './Reacciones';
 
 const Post = ({ post }) => {
   return (
@@ -9,13 +9,13 @@ const Post = ({ post }) => {
       {/* Header usuario */}
       <div className="flex items-center mb-4">
         <img
-          src={post.usuario?.foto_perfil_url || "/img/default-profile.png"}
+          src={post.usuario?.foto_perfil_url || '/img/default-profile.png'}
           alt="Perfil"
           className="w-11 h-11 rounded-full object-cover mr-3 shadow-soft"
         />
         <div>
           <p className="font-semibold text-sm text-gray-900 dark:text-gray-100">
-            {post.usuario?.nombre || "Usuario desconocido"}
+            {post.usuario?.nombre || 'Usuario desconocido'}
           </p>
           <p className="text-xs text-gray-500 dark:text-gray-400">
             {new Date(post.fecha_creacion).toLocaleString()}
@@ -54,15 +54,8 @@ const Post = ({ post }) => {
           Array.isArray(post.comentarios) ? post.comentarios : []
         }
       />
-
-      
     </div>
   );
 };
 
 export default Post;
-
-
-
-
-

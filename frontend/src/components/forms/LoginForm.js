@@ -1,13 +1,13 @@
-import { useState, useContext } from "react";
-import { useRouter } from "next/router";
-import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from "react-icons/fa";
-import { motion } from "framer-motion";
-import { AuthContext } from "../../../context/AuthContext";
+import { useState, useContext } from 'react';
+import { useRouter } from 'next/router';
+import { FaEnvelope, FaLock, FaEye, FaEyeSlash } from 'react-icons/fa';
+import { motion } from 'framer-motion';
+import { AuthContext } from '../../../context/AuthContext';
 
 export default function LoginForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [rememberMe, setRememberMe] = useState(false);
@@ -45,14 +45,14 @@ export default function LoginForm() {
     // Validación del frontend
     const newErrors = {};
     if (!email) {
-      newErrors.email = "El correo es requerido";
+      newErrors.email = 'El correo es requerido';
     } else if (!validateEmail(email)) {
-      newErrors.email = "Formato de correo inválido";
+      newErrors.email = 'Formato de correo inválido';
     }
     if (!password) {
-      newErrors.password = "La contraseña es requerida";
+      newErrors.password = 'La contraseña es requerida';
     } else if (password.length < 6) {
-      newErrors.password = "La contraseña debe tener al menos 6 caracteres";
+      newErrors.password = 'La contraseña debe tener al menos 6 caracteres';
     }
 
     if (Object.keys(newErrors).length > 0) {
@@ -64,28 +64,36 @@ export default function LoginForm() {
     setErrors({});
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/login/`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password }),
-      });
+      const response = await fetch(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/usuarios/login/`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, password }),
+        }
+      );
 
-      console.log("Estado de la respuesta:", response.status);
+      console.log('Estado de la respuesta:', response.status);
 
       if (!response.ok) {
         const errorData = await response.json();
         if (response.status === 401) {
-          setErrors({ general: "Credenciales incorrectas. Verifica tu email y contraseña." });
+          setErrors({
+            general:
+              'Credenciales incorrectas. Verifica tu email y contraseña.',
+          });
         } else if (response.status === 400) {
-          setErrors({ general: "Datos inválidos. Por favor verifica la información." });
+          setErrors({
+            general: 'Datos inválidos. Por favor verifica la información.',
+          });
         } else {
-          setErrors({ general: "Error del servidor. Intenta nuevamente." });
+          setErrors({ general: 'Error del servidor. Intenta nuevamente.' });
         }
         return;
       }
 
       const data = await response.json();
-      console.log("Respuesta completa del backend:", data);
+      console.log('Respuesta completa del backend:', data);
 
       let { user, access_token, refresh_token } = data;
 
@@ -96,21 +104,21 @@ export default function LoginForm() {
 
       // Guardar preferencia de "recordarme"
       if (rememberMe) {
-        localStorage.setItem("remember_me", "true");
+        localStorage.setItem('remember_me', 'true');
       }
 
       // 🔹 Guardar usuario y tokens en localStorage
-      localStorage.setItem("usuario", JSON.stringify(user));
-      localStorage.setItem("token", access_token);
-      localStorage.setItem("refresh_token", refresh_token);
+      localStorage.setItem('usuario', JSON.stringify(user));
+      localStorage.setItem('token', access_token);
+      localStorage.setItem('refresh_token', refresh_token);
 
       // 🔹 Actualizar contexto de auth
       login(user, access_token, refresh_token);
 
       // Notificación de éxito
-      const successNotification = document.createElement("div");
+      const successNotification = document.createElement('div');
       successNotification.className =
-        "fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50";
+        'fixed top-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg z-50';
       successNotification.textContent = `¡Bienvenido de vuelta, ${user.nombre}!`;
       document.body.appendChild(successNotification);
 
@@ -118,11 +126,12 @@ export default function LoginForm() {
         document.body.removeChild(successNotification);
       }, 3000);
 
-      router.push("/");
+      router.push('/');
     } catch (err) {
-      console.error("Error al iniciar sesión:", err);
+      console.error('Error al iniciar sesión:', err);
       setErrors({
-        general: "Error de conexión. Verifica tu internet e intenta nuevamente.",
+        general:
+          'Error de conexión. Verifica tu internet e intenta nuevamente.',
       });
     } finally {
       setLoading(false);
@@ -135,7 +144,7 @@ export default function LoginForm() {
     visible: {
       opacity: 1,
       y: 0,
-      transition: { duration: 0.6, ease: "easeOut" },
+      transition: { duration: 0.6, ease: 'easeOut' },
     },
   };
 
@@ -177,7 +186,9 @@ export default function LoginForm() {
             <h2 className="text-3xl font-extrabold bg-gradient-to-r from-cyan-400 to-fuchsia-400 bg-clip-text text-transparent">
               SOCIALINK
             </h2>
-            <p className="text-sm text-gray-400 mt-2">Conecta con tu red social</p>
+            <p className="text-sm text-gray-400 mt-2">
+              Conecta con tu red social
+            </p>
           </motion.div>
 
           {/* Error general */}
@@ -202,8 +213,8 @@ export default function LoginForm() {
                 whileFocus="focus"
                 className={`flex items-center bg-gray-800/50 backdrop-blur-sm px-4 py-3 rounded-xl border transition-all duration-300 ${
                   errors.email
-                    ? "border-red-500/50 bg-red-500/10"
-                    : "border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500"
+                    ? 'border-red-500/50 bg-red-500/10'
+                    : 'border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500'
                 }`}
               >
                 <FaEnvelope className="text-cyan-400 mr-3 text-sm" />
@@ -237,13 +248,13 @@ export default function LoginForm() {
                 whileFocus="focus"
                 className={`flex items-center bg-gray-800/50 backdrop-blur-sm px-4 py-3 rounded-xl border transition-all duration-300 ${
                   errors.password
-                    ? "border-red-500/50 bg-red-500/10"
-                    : "border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500"
+                    ? 'border-red-500/50 bg-red-500/10'
+                    : 'border-gray-700 hover:border-cyan-500/50 focus-within:border-cyan-500'
                 }`}
               >
                 <FaLock className="text-cyan-400 mr-3 text-sm" />
                 <input
-                  type={showPassword ? "text" : "password"}
+                  type={showPassword ? 'text' : 'password'}
                   value={password}
                   onChange={handlePasswordChange}
                   placeholder="••••••••"
@@ -286,7 +297,7 @@ export default function LoginForm() {
 
               <motion.button
                 type="button"
-                onClick={() => router.push("/forgot-password")}
+                onClick={() => router.push('/forgot-password')}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="text-cyan-400 hover:text-cyan-300 transition-colors"
@@ -303,8 +314,8 @@ export default function LoginForm() {
               whileTap={!loading ? { scale: 0.98 } : {}}
               className={`w-full py-3 rounded-xl font-semibold transition-all duration-300 ${
                 loading
-                  ? "bg-gray-600 cursor-not-allowed"
-                  : "bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg hover:shadow-cyan-500/25"
+                  ? 'bg-gray-600 cursor-not-allowed'
+                  : 'bg-gradient-to-r from-cyan-500 to-fuchsia-500 hover:from-cyan-400 hover:to-fuchsia-400 shadow-lg hover:shadow-cyan-500/25'
               }`}
             >
               {loading ? (
@@ -313,7 +324,7 @@ export default function LoginForm() {
                   <span>Iniciando sesión...</span>
                 </div>
               ) : (
-                "Iniciar sesión"
+                'Iniciar sesión'
               )}
             </motion.button>
           </form>
@@ -325,10 +336,10 @@ export default function LoginForm() {
             transition={{ delay: 0.4 }}
             className="text-center text-sm text-gray-400 mt-8"
           >
-            ¿No tienes una cuenta?{" "}
+            ¿No tienes una cuenta?{' '}
             <motion.button
               type="button"
-              onClick={() => router.push("/registro")}
+              onClick={() => router.push('/registro')}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
               className="text-cyan-400 hover:text-cyan-300 transition-colors font-medium"
