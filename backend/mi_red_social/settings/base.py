@@ -9,23 +9,31 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-
+import environ
 from pathlib import Path
 from datetime import timedelta
 
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
+
+# Take environment variables from .env file
+# environ.Env.read_env(str(BASE_DIR / '.env'))
+environ.Env.read_env(str(BASE_DIR.joinpath('.env')))
 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-xbn^t@7j-(8vye=&@t5e1g@!b!&#gsd5ob%h7d=5z#(gquuoie'
+SECRET_KEY = env('SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = env.bool('DEBUG', default=False)
 
 ALLOWED_HOSTS = [
     "localhost",
@@ -101,14 +109,7 @@ WSGI_APPLICATION = 'mi_red_social.wsgi.application'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'mi_red_social',
-        'USER': 'red_social',
-        'PASSWORD': '1007773621',
-        'HOST': 'localhost',
-        'PORT': '5432',
-    }
+    'default': env.db(),
 }
 
 
@@ -205,8 +206,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'  #  si usas Gmail
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'jhansancheza@gmail.com'  #  dirección de correo
-EMAIL_HOST_PASSWORD = 'vebs vnnu pmdz phbw'  #  contraseña de correo
+EMAIL_HOST_USER = env('EMAIL_HOST_USER')  #  dirección de correo
+EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')  #  contraseña de correo
 
 # Configuración de sesiones en settings.py
 SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # La base de datos guarda las sesiones
