@@ -61,6 +61,12 @@ a {
 /* Elimina fondo blanco en inputs al escribir o autofill */
 input, textarea {
   background-color: transparent !important;
+  color: #1f2937 !important;
+}
+
+/* Modo oscuro */
+.dark input,
+.dark textarea {
   color: #fff !important;
 }
 

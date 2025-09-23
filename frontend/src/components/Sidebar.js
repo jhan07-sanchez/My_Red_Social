@@ -29,7 +29,7 @@ const Sidebar = () => {
       {/* Botón hamburguesa móvil */}
       <button
         onClick={() => setOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-50 p-2 rounded-lg bg-white shadow-lg border hover:bg-gray-100 transition"
+        className="md:hidden fixed top-16 left-0 z-50 p-2 rounded-lg bg-white shadow-lg border hover:bg-gray-100 transition"
       >
         <Menu className="w-6 h-6 text-gray-700" />
       </button>
