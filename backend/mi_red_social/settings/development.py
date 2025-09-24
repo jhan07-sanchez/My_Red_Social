@@ -1,19 +1,16 @@
-from .base import *  # noqa: F403, F401
+from .base import *
 
-#  DEBUG siempre debe estar activo en desarrollo
 DEBUG = True
 
-#  Hosts permitidos en desarrollo
 ALLOWED_HOSTS = ['localhost', '127.0.0.1']
 
-#  CORS para permitir acceso desde tu frontend local
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:3000",
     "http://127.0.0.1:3000",
     "http://192.168.56.1:3000"
 ]
 
-#  Base de datos PostgreSQL en servidor local
+# Base de datos apuntando al servidor (si quieres usar la misma que prod)
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -25,9 +22,3 @@ DATABASES = {
     }
 }
 
-#  Rutas para archivos estáticos y multimedia
-STATIC_URL = '/static/'
-MEDIA_ROOT = "/var/www/mi_red_social/backend/media/"
-MEDIA_URL = "/media/"
-#  Archivo de URLs raíz (normalmente se mantiene así)
-ROOT_URLCONF = 'mi_red_social.urls'

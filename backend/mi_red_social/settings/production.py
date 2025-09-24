@@ -1,12 +1,9 @@
-from .base import *  # noqa: F403, F401
+from .base import *
 
 DEBUG = False
-
 ALLOWED_HOSTS = ['192.168.101.7', '192.168.101.7:8090']
 
-CORS_ALLOWED_ORIGINS = [
-    "http://192.168.101.7:8081",
-]
+CORS_ALLOWED_ORIGINS = ["http://192.168.101.7:8081"]
 
 DATABASES = {
     'default': {
@@ -14,19 +11,11 @@ DATABASES = {
         'NAME': 'mi_red_social',
         'USER': 'red_social',
         'PASSWORD': '1007773621',
-        'HOST': '192.168.101.7',
+        'HOST': 'localhost',
         'PORT': '5432',
     }
 }
 
-STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
-#  Archivo de URLs raíz (normalmente se mantiene así)
-ROOT_URLCONF = 'mi_red_social.urls'
-
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-MEDIA_ROOT = BASE_DIR / 'media'
 
 
 # Configuración importante para producción
