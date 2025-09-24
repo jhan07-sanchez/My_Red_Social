@@ -17,7 +17,6 @@ DATABASES = {
 }
 
 
-
 # Configuración importante para producción
 LOGGING = {
     'version': 1,
