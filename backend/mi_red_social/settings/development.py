@@ -27,7 +27,7 @@ DATABASES = {
 
 #  Rutas para archivos estáticos y multimedia
 STATIC_URL = '/static/'
-MEDIA_URL = '/media/'
-
+MEDIA_ROOT = "/var/www/mi_red_social/backend/media/"
+MEDIA_URL = "/media/"
 #  Archivo de URLs raíz (normalmente se mantiene así)
 ROOT_URLCONF = 'mi_red_social.urls'
