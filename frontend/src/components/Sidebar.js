@@ -1,5 +1,6 @@
 "use client";
 import { useState } from "react";
+import Link from "next/link";
 import {
   Home,
   User,
@@ -16,12 +17,12 @@ const Sidebar = () => {
   const [open, setOpen] = useState(false);
 
   const menuItems = [
-    { name: "Inicio", icon: <Home className="w-5 h-5" /> },
-    { name: "Perfil", icon: <User className="w-5 h-5" /> },
-    { name: "Amigos", icon: <Users className="w-5 h-5" /> },
-    { name: "Mensajes", icon: <MessageSquare className="w-5 h-5" /> },
-    { name: "Notificaciones", icon: <Bell className="w-5 h-5" /> },
-    { name: "Configuración", icon: <Settings className="w-5 h-5" /> },
+    { name: "Inicio", icon: <Home className="w-5 h-5" />, href: "/" },
+    { name: "Perfil", icon: <User className="w-5 h-5" />, href: "/perfil" },
+    { name: "Amigos", icon: <Users className="w-5 h-5" />, href: "/amigos" },
+    { name: "Mensajes", icon: <MessageSquare className="w-5 h-5" />, href: "/mensajes" },
+    { name: "Notificaciones", icon: <Bell className="w-5 h-5" />, href: "/notificaciones" },
+    { name: "Configuración", icon: <Settings className="w-5 h-5" />, href: "/configuracion" },
   ];
 
   return (
@@ -68,13 +69,15 @@ const Sidebar = () => {
         {/* Menú */}
         <nav className="flex flex-col p-4 space-y-2">
           {menuItems.map((item, i) => (
-            <button
+            <Link
               key={i}
+              href={item.href}
               className="flex items-center gap-3 px-4 py-2 rounded-lg text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              onClick={() => setOpen(false)}
             >
               {item.icon}
               <span className="text-base font-medium">{item.name}</span>
-            </button>
+            </Link>
           ))}
         </nav>
 

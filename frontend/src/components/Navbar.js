@@ -1,6 +1,9 @@
 import Link from "next/link";
 import LogoutButton from "./LogoutButton";
 import { useEffect, useState, useContext } from "react";
+import { buscarUsuarios, enviarSolicitud } from "../services/amistadesApi";
+import { motion, AnimatePresence } from "framer-motion";
+import { ThemeContext } from "../../context/ThemeContext";
 import { 
   Bell, 
   Menu, 
@@ -11,19 +14,46 @@ import {
   MessageCircle, 
   User,
   Settings,
-  ChevronDown
+  ChevronDown,
+  UserPlus
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ThemeContext } from "../../context/ThemeContext";
+
+
 
 const Navbar = () => {
   const [user, setUser] = useState(null);
   const [showMenu, setShowMenu] = useState(false);
   const [showProfileDropdown, setShowProfileDropdown] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [resultados, setResultados] = useState([]);
+  const [showResultados, setShowResultados] = useState(false);
   const [notifications, setNotifications] = useState(3); // Ejemplo de notificaciones
   const { isDark, toggleTheme } = useContext(ThemeContext);
 
+  // 🔍 Buscar usuarios en tiempo real
+useEffect(() => {
+  const fetchResultados = async () => {
+    if (searchQuery.trim().length > 1) {
+      try {
+        const token = localStorage.getItem("token");
+        const data = await buscarUsuarios(token, searchQuery);
+        setResultados(data);
+        setShowResultados(true);
+      } catch (error) {
+        console.error("Error al buscar usuarios:", error);
+      }
+    } else {
+      setResultados([]);
+      setShowResultados(false);
+    }
+  };
+
+  const delayDebounce = setTimeout(fetchResultados, 400); // debounce
+  return () => clearTimeout(delayDebounce);
+}, [searchQuery]);
+
+  
+  
   useEffect(() => {
     const token = localStorage.getItem("token");
 
@@ -76,6 +106,17 @@ const Navbar = () => {
     exit: { opacity: 0, y: -20 }
   };
 
+  // ➕ Enviar solicitud
+const handleEnviarSolicitud = async (usuarioId) => {
+  try {
+    const token = localStorage.getItem("token");
+    await enviarSolicitud(token, usuarioId);
+    alert("Solicitud enviada ✅");
+  } catch (error) {
+    alert("Error al enviar solicitud ❌");
+  }
+};
+
   return (
     <>
       <motion.nav
@@ -106,6 +147,40 @@ const Navbar = () => {
               className="w-full pl-10 pr-4 py-2 rounded-full bg-white/10 border border-white/20 text-white placeholder-white/70 focus:outline-none focus:ring-2 focus:ring-white/50 focus:bg-white/20 transition-all"
             />
           </form>
+          {/* 🔽 Resultados */}
+{showResultados && (
+  <div className="absolute top-12 w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg z-50">
+    {resultados.length > 0 ? (
+      resultados.map((u) => (
+        <div
+          key={u.id}
+          className="flex items-center justify-between px-4 py-2 hover:bg-gray-100 dark:hover:bg-gray-700"
+        >
+          <div className="flex items-center space-x-3">
+            <img
+              src={u.foto_perfil || "/img/default-profile.png"}
+              alt={u.nombre}
+              className="w-8 h-8 rounded-full object-cover"
+            />
+            <span className="text-gray-900 dark:text-gray-200">
+              {u.nombre}
+            </span>
+          </div>
+          <button
+            onClick={() => handleEnviarSolicitud(u.id)}
+            className="text-blue-600 dark:text-blue-400 hover:underline flex items-center space-x-1"
+          >
+            <UserPlus className="w-4 h-4" />
+            <span>Agregar</span>
+          </button>
+        </div>
+      ))
+    ) : (
+      <p className="px-4 py-2 text-gray-500">Sin resultados</p>
+    )}
+  </div>
+)}
+
         </div>
 
         {/* Iconos de navegación - Desktop */}

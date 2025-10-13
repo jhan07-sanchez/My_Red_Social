@@ -1,40 +1,38 @@
 from rest_framework import serializers
 from apps.usuarios.models import Usuario
-from apps.amistades.models import Amistad, Friendship
+from apps.amistades.models import Amistad
+
+class UsuarioSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Usuario
+        fields = ["id", "email", "nombre", "foto_perfil"]
 
 class EnviarSolicitudAmistadSerializer(serializers.ModelSerializer):
-    """Serializador para enviar una solicitud de amistad."""
-
     class Meta:
         model = Amistad
         fields = ['usuario_recibe']
 
+    def validate(self, data):
+        user_envia = self.context['request'].user
+        user_recibe = data['usuario_recibe']
+
+        if user_envia == user_recibe:
+            raise serializers.ValidationError("No puedes enviarte una solicitud a ti mismo.")
+
+        if Amistad.objects.filter(usuario_envia=user_envia, usuario_recibe=user_recibe).exists():
+            raise serializers.ValidationError("Ya enviaste una solicitud a este usuario.")
+
+        return data
+
+
 class ResponderSolicitudSerializer(serializers.Serializer):
-    """Serializador para responder a una solicitud de amistad."""
     respuesta = serializers.ChoiceField(choices=['aceptar', 'rechazar'])
 
-class ListaAmigosSerializer(serializers.ModelSerializer):
-    """Serializador para listar amigos de un usuario."""
-
-    usuario_envia = serializers.StringRelatedField()
-    usuario_recibe = serializers.StringRelatedField()
+class AmistadSerializer(serializers.ModelSerializer):
+    usuario_envia = UsuarioSerializer(read_only=True)
+    usuario_recibe = UsuarioSerializer(read_only=True)
 
     class Meta:
         model = Amistad
-        fields = ['usuario_envia', 'usuario_recibe', 'estado']
-
-class FriendshipSerializer(serializers.ModelSerializer):
-    """Serializador para relaciones de amistad."""
-
-    class Meta:
-        model = Amistad
-        fields = '__all__'
-
-
-
-class FriendRequestSerializer(serializers.ModelSerializer):
-    """Serializador para solicitudes de amistad."""
-
-    class Meta:
-        model = Amistad  # Asegúrate de que el modelo sea correcto
-        fields = '__all__'
+        fields = ['id', 'usuario_envia', 'usuario_recibe', 'estado', 'fecha_solicitud']
+            

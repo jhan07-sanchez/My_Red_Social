@@ -32,7 +32,7 @@ export default function Perfil() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-100 flex flex-col items-center py-10 px-4">
+    <div className="min-h-screen bg-gray-100 dark:bg-neutral-950 flex flex-col items-center py-10 px-4">
       {user ? (
         <UsuarioPerfilCard user={user} setUser={setUser} onLogout={cerrarSesion} />
 
